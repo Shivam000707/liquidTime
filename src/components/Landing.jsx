@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { Sparkles, Mic2, Shuffle, Clock, Shield } from 'lucide-react'
+import Dither from './Dither'
 
 // ── icons ────────────────────────────────────────────────────────────────────
 function ArrowUpRight({ size = 18 }) {
@@ -38,6 +39,21 @@ function ScrollProgress() {
 function AmbientBg({ orb1Y = 0, orb2Y = 0, orb3Y = 0 }) {
   return (
     <div aria-hidden="true" style={{ pointerEvents: 'none', position: 'absolute', inset: 0, overflow: 'hidden' }}>
+      {/* Interactive Dither Wave Background */}
+      <div style={{ position: 'absolute', inset: 0, opacity: 0.65 }}>
+        <Dither
+          waveColor={[0.35, 0.05, 0.75]}
+          disableAnimation={false}
+          enableMouseInteraction={true}
+          mouseRadius={0.4}
+          colorNum={5}
+          pixelSize={3}
+          waveAmplitude={0.35}
+          waveFrequency={2.5}
+          waveSpeed={0.04}
+        />
+      </div>
+
       <motion.div style={{
         position: 'absolute', top: '-20%', right: '-8%', width: 700, height: 700,
         borderRadius: '50%', background: 'radial-gradient(circle, rgba(6,182,212,0.14) 0%, transparent 65%)',
@@ -206,7 +222,7 @@ function StatCard({ value, label, Icon }) {
         <Icon size={15} color="rgba(255,255,255,0.7)" strokeWidth={1.6} />
       </div>
       <div>
-        <div style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontSize: 'clamp(28px, 4vw, 36px)', color: '#fff', letterSpacing: '-1px', lineHeight: 1 }}>{value}</div>
+        <div style={{ fontFamily: "'Zen Dots', sans-serif", fontStyle: 'normal', fontSize: 'clamp(28px, 4vw, 36px)', color: '#fff', letterSpacing: '-1px', lineHeight: 1 }}>{value}</div>
         <div style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300, fontSize: 12, color: 'rgba(255,255,255,0.55)', marginTop: 6 }}>{label}</div>
       </div>
     </div>
@@ -302,15 +318,15 @@ function Landing({ onEnter }) {
   // scroll-driven parallax — callback form so range is always reactive
   const { scrollY } = useScroll()
   const headlineY = useTransform(scrollY, (v) => -v * 0.075)
-  const badgeY    = useTransform(scrollY, (v) => -v * 0.045)
-  const subY      = useTransform(scrollY, (v) => -v * 0.05)
-  const ctaY      = useTransform(scrollY, (v) => -v * 0.035)
-  const statsY    = useTransform(scrollY, (v) => -v * 0.02)
-  const bottomY   = useTransform(scrollY, (v) => -v * 0.015)
+  const badgeY = useTransform(scrollY, (v) => -v * 0.045)
+  const subY = useTransform(scrollY, (v) => -v * 0.05)
+  const ctaY = useTransform(scrollY, (v) => -v * 0.035)
+  const statsY = useTransform(scrollY, (v) => -v * 0.02)
+  const bottomY = useTransform(scrollY, (v) => -v * 0.015)
   // orbs scroll slower than page content → appear to be behind
-  const orb1Y     = useTransform(scrollY, (v) => v * 0.06)
-  const orb2Y     = useTransform(scrollY, (v) => v * 0.038)
-  const orb3Y     = useTransform(scrollY, (v) => v * 0.085)
+  const orb1Y = useTransform(scrollY, (v) => v * 0.06)
+  const orb2Y = useTransform(scrollY, (v) => v * 0.038)
+  const orb3Y = useTransform(scrollY, (v) => v * 0.085)
 
   return (
     <div style={{ background: '#000', color: '#fff', minHeight: '100dvh', fontFamily: BARLOW, overflowX: 'hidden' }}>
@@ -325,7 +341,7 @@ function Landing({ onEnter }) {
           flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
           justifyContent: 'center', padding: 'clamp(96px,15vh,140px) clamp(20px,5vw,60px) 32px',
           position: 'relative', zIndex: 10, textAlign: 'center',
-          maxWidth: 900, margin: '0 auto', width: '100%',
+          maxWidth: 1400, margin: '0 auto', width: '100%',
         }}>
 
           {/* Badge — lightest parallax */}
