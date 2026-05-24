@@ -14,12 +14,15 @@ function TaskItem({ task, onToggle, onDelete }) {
       <button
         onClick={(e) => { e.stopPropagation(); onToggle() }}
         aria-label={task.done ? 'Mark not done' : 'Mark done'}
-        className="shrink-0 w-4 h-4 rounded grid place-items-center transition-all"
-        style={task.done
-          ? { background: 'linear-gradient(135deg,#f97316,#ec4899)', border: '1px solid transparent' }
-          : { background: 'transparent', border: '1.5px solid rgba(100,116,139,0.5)' }}
+        className="shrink-0 relative grid place-items-center transition-all"
+        style={{ width: 28, height: 28, margin: -6 }}
       >
-        {task.done && <Check size={9} strokeWidth={3} style={{ color: '#fff' }} />}
+        <span className="w-4 h-4 rounded grid place-items-center"
+          style={task.done
+            ? { background: 'linear-gradient(135deg,#f97316,#ec4899)', border: '1px solid transparent' }
+            : { background: 'transparent', border: '1.5px solid rgba(100,116,139,0.5)' }}>
+          {task.done && <Check size={9} strokeWidth={3} style={{ color: '#fff' }} />}
+        </span>
       </button>
       <span className={[
         'flex-1 text-[12px] leading-snug min-w-0 break-words',
@@ -88,18 +91,21 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
     >
       {/* main row */}
       <div className="flex items-start gap-4">
-        {/* done toggle */}
+        {/* done toggle — 44px touch target */}
         {onToggleDone && (
           <button
             onClick={(e) => { e.stopPropagation(); onToggleDone(block) }}
             aria-label={isDone ? `Mark ${block.title} not done` : `Mark ${block.title} done`}
             aria-pressed={isDone}
-            className="shrink-0 self-center w-6 h-6 rounded-full grid place-items-center transition-all hover:brightness-125"
-            style={isDone
-              ? { background: 'linear-gradient(135deg,#f97316,#ec4899)', border: '1px solid transparent' }
-              : { background: 'transparent', border: '1.5px solid rgba(100,116,139,0.55)' }}
+            className="shrink-0 self-center relative grid place-items-center transition-all"
+            style={{ width: 44, height: 44, margin: -9 }}
           >
-            {isDone && <Check size={13} strokeWidth={3} style={{ color: '#fff' }} />}
+            <span className="w-6 h-6 rounded-full grid place-items-center transition-all"
+              style={isDone
+                ? { background: 'linear-gradient(135deg,#f97316,#ec4899)', border: '1px solid transparent' }
+                : { background: 'transparent', border: '1.5px solid rgba(100,116,139,0.55)' }}>
+              {isDone && <Check size={13} strokeWidth={3} style={{ color: '#fff' }} />}
+            </span>
           </button>
         )}
 
@@ -165,13 +171,11 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
       {/* ── tasks section ── */}
       {(tasks.length > 0 || addingTask || onAddTask) && (
         <div
-          className="ml-[calc(24px+88px+40px+16px)] mt-3"
+          className="mt-3 pl-4 border-l"
+          style={{ borderColor: 'rgba(100,116,139,0.15)' }}
           onClick={(e) => e.stopPropagation()}
           onKeyDown={(e) => e.stopPropagation()}
         >
-          {/* separator */}
-          <div className="mb-2" style={{ height: 1, background: 'rgba(100,116,139,0.15)' }} />
-
           {/* task list */}
           {tasks.map((task) => (
             <TaskItem

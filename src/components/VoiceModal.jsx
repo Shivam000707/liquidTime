@@ -71,20 +71,34 @@ function VoiceModal({
   if (!open) return null
 
   return (
-    <div
-      className="fixed bottom-8 left-4 right-4 sm:left-auto sm:right-6 z-50 sm:w-[360px]"
-      style={{ animation: 'lt-fade-in 220ms ease-out both' }}
-    >
+    <>
+      {/* mobile backdrop */}
       <div
-        className="rounded-[20px] p-5"
+        className="fixed inset-0 z-40 sm:hidden"
+        style={{ background: 'rgba(2,6,23,0.6)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)', animation: 'lt-fade-in 200ms ease-out both' }}
+        onClick={!submitting ? onClose : undefined}
+      />
+
+      {/* panel — bottom sheet on mobile, floating panel on desktop */}
+      <div
+        className="fixed z-50 left-0 right-0 bottom-0 sm:bottom-6 sm:left-auto sm:right-6 sm:w-[360px]"
+        style={{ animation: 'lt-slide-up 280ms cubic-bezier(0.22,1,0.36,1) both' }}
+      >
+      <div
+        className="rounded-t-[28px] sm:rounded-[20px] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] sm:pb-5"
         style={{
-          background: 'linear-gradient(180deg, rgba(15,23,42,0.97), rgba(2,6,23,0.97))',
+          background: 'linear-gradient(180deg, rgba(15,23,42,0.98), rgba(2,6,23,0.98))',
           border: '1px solid rgba(249,115,22,0.32)',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(249,115,22,0.14), inset 0 1px 0 rgba(255,255,255,0.07)',
+          borderBottom: 'none',
+          boxShadow: '0 -8px 40px rgba(0,0,0,0.5), 0 0 40px rgba(249,115,22,0.14), inset 0 1px 0 rgba(255,255,255,0.07)',
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
         }}
       >
+        {/* drag handle on mobile */}
+        <div className="sm:hidden flex justify-center mb-3">
+          <div className="w-10 h-1 rounded-full" style={{ background: 'rgba(100,116,139,0.4)' }} />
+        </div>
         {/* header */}
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2.5 min-w-0">
@@ -188,7 +202,8 @@ function VoiceModal({
           </button>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   )
 }
 

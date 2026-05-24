@@ -146,6 +146,11 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
             </div>
           </div>
 
+          {/* mobile metrics strip — above timeline */}
+          <div className="lg:hidden mb-5">
+            <MetricsSidebar metrics={metrics} insight={insight} />
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 lg:gap-8">
             {/* timeline */}
             <section>
@@ -191,16 +196,21 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
               />
             </section>
 
-            {/* sidebar */}
-            <MetricsSidebar metrics={metrics} insight={insight} />
+            {/* sidebar — desktop only */}
+            <div className="hidden lg:block">
+              <MetricsSidebar metrics={metrics} insight={insight} />
+            </div>
           </div>
 
-          <div className="h-32" />
+          <div style={{ height: 'calc(8rem + env(safe-area-inset-bottom))' }} />
         </main>
 
         {/* docked mic — hides while the voice panel is open */}
         {!modalOpen && (
-          <div className="fixed left-1/2 -translate-x-1/2 bottom-8 z-40 flex flex-col items-center gap-3">
+          <div
+            className="fixed left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-3"
+            style={{ bottom: 'calc(2rem + env(safe-area-inset-bottom))' }}
+          >
             <MicButton recording={recording} onClick={openVoice} />
             <div className="px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.08em]"
               style={{ background: 'rgba(15,23,42,0.7)', color: '#94a3b8', border: '1px solid rgba(30,41,59,0.6)', backdropFilter: 'blur(8px)' }}>
@@ -209,9 +219,12 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
           </div>
         )}
 
-        {/* simulate / type button — hides while voice panel is open */}
+        {/* type command button — desktop only */}
         {!modalOpen && (
-          <div className="fixed bottom-8 right-6 z-30 hidden md:flex flex-col gap-2 items-end">
+          <div
+            className="fixed right-6 z-30 hidden md:flex flex-col gap-2 items-end"
+            style={{ bottom: 'calc(2rem + env(safe-area-inset-bottom))' }}
+          >
             <button
               onClick={openVoice}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-medium text-slate-200 bg-slate-900/70 border border-slate-800/70 hover:bg-slate-800/80 hover:text-slate-50 transition-colors backdrop-blur"

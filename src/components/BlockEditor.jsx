@@ -76,19 +76,27 @@ function BlockEditor({ open, mode, block, blocks, onClose, onSave, onDelete }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center px-6"
-      style={{ background: 'rgba(2,6,23,0.78)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', animation: 'lt-fade-in 220ms ease-out both' }}
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:px-6"
+      style={{ background: 'rgba(2,6,23,0.78)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', animation: 'lt-fade-in 200ms ease-out both' }}
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-[460px] rounded-[28px] p-7 sm:p-8"
+        className="relative w-full sm:max-w-[460px] rounded-t-[28px] sm:rounded-[28px] p-6 sm:p-8 overflow-y-auto scroll-momentum"
         style={{
-          background: 'linear-gradient(180deg, rgba(15,23,42,0.92), rgba(2,6,23,0.92))',
+          background: 'linear-gradient(180deg, rgba(15,23,42,0.97), rgba(2,6,23,0.97))',
           border: '1px solid rgba(249,115,22,0.30)',
-          boxShadow: '0 24px 80px rgba(0,0,0,0.6), 0 0 64px rgba(249,115,22,0.18), inset 0 1px 0 rgba(255,255,255,0.07)',
+          borderBottom: 'none',
+          boxShadow: '0 -8px 60px rgba(0,0,0,0.6), 0 0 64px rgba(249,115,22,0.14), inset 0 1px 0 rgba(255,255,255,0.07)',
+          maxHeight: '92dvh',
+          paddingBottom: 'calc(1.5rem + env(safe-area-inset-bottom))',
+          animation: 'lt-slide-up 300ms cubic-bezier(0.22,1,0.36,1) both',
         }}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* drag handle */}
+        <div className="sm:hidden flex justify-center mb-4">
+          <div className="w-10 h-1 rounded-full" style={{ background: 'rgba(100,116,139,0.4)' }} />
+        </div>
         <button
           onClick={onClose}
           aria-label="Close"
