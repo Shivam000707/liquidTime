@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: liquidtime-api
+    runtime: python
+    region: oregon
+    plan: free
+    buildCommand: cd backend && pip install -r requirements.txt
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port 8000
+    envVars:
+      - key: NVIDIA_API_KEY
+        scope: build,runtime
+        description: "NVIDIA NIM API key from build.nvidia.com"
+      - key: NIM_MODEL
+        value: openai/gpt-oss-120b
+      - key: NIM_BASE_URL
+        value: https://integrate.api.nvidia.com/v1
+      - key: ALLOWED_ORIGINS
+        description: "Comma-separated CORS origins (your Vercel frontend URL)"
+        value: ""
