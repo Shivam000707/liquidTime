@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { Sparkles, Mic2, Shuffle, Clock, Shield } from 'lucide-react'
 
-// ── inline SVG icons ─────────────────────────────────────────────────────────
+// ── icons ────────────────────────────────────────────────────────────────────
 function ArrowUpRight({ size = 18 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -19,14 +19,45 @@ function PlayFill({ size = 16 }) {
   )
 }
 
-// ── ambient background (no canvas, pure CSS orbs) ────────────────────────────
-function AmbientBg() {
+// ── scroll progress bar ──────────────────────────────────────────────────────
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 40, restDelta: 0.001 })
+  return (
+    <motion.div
+      style={{
+        position: 'fixed', top: 0, left: 0, right: 0, height: 2, zIndex: 100,
+        scaleX, transformOrigin: '0%',
+        background: 'linear-gradient(90deg, rgba(6,182,212,0.9) 0%, rgba(139,92,246,0.85) 50%, rgba(249,115,22,0.9) 100%)',
+      }}
+    />
+  )
+}
+
+// ── ambient background with parallax ─────────────────────────────────────────
+function AmbientBg({ orb1Y = 0, orb2Y = 0, orb3Y = 0 }) {
   return (
     <div aria-hidden="true" style={{ pointerEvents: 'none', position: 'absolute', inset: 0, overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: '-20%', right: '-8%', width: 700, height: 700, borderRadius: '50%', background: 'radial-gradient(circle, rgba(6,182,212,0.14) 0%, transparent 65%)' }} />
-      <div style={{ position: 'absolute', top: '38%', left: '-12%', width: 580, height: 580, borderRadius: '50%', background: 'radial-gradient(circle, rgba(139,92,246,0.11) 0%, transparent 65%)' }} />
-      <div style={{ position: 'absolute', bottom: '-12%', left: '28%', width: 480, height: 480, borderRadius: '50%', background: 'radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 65%)' }} />
-      <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px)', backgroundSize: '88px 88px' }} />
+      <motion.div style={{
+        position: 'absolute', top: '-20%', right: '-8%', width: 700, height: 700,
+        borderRadius: '50%', background: 'radial-gradient(circle, rgba(6,182,212,0.14) 0%, transparent 65%)',
+        y: orb1Y,
+      }} />
+      <motion.div style={{
+        position: 'absolute', top: '38%', left: '-12%', width: 580, height: 580,
+        borderRadius: '50%', background: 'radial-gradient(circle, rgba(139,92,246,0.11) 0%, transparent 65%)',
+        y: orb2Y,
+      }} />
+      <motion.div style={{
+        position: 'absolute', bottom: '-12%', left: '28%', width: 480, height: 480,
+        borderRadius: '50%', background: 'radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 65%)',
+        y: orb3Y,
+      }} />
+      <div style={{
+        position: 'absolute', inset: 0,
+        backgroundImage: 'linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px)',
+        backgroundSize: '88px 88px',
+      }} />
     </div>
   )
 }
@@ -67,16 +98,80 @@ function BlurText({ text, className, startDelay = 0 }) {
   )
 }
 
+// ── scrolling marquee strip ──────────────────────────────────────────────────
+const MARQUEE_SEGMENT = 'Your Day · Flows Like Liquid · AI Scheduling · Voice First · On Device · '
+
+function MarqueeStrip() {
+  // Duplicate to create seamless loop — one unit = 50% of the track
+  const track = MARQUEE_SEGMENT.repeat(6)
+  return (
+    <div style={{
+      overflow: 'hidden',
+      padding: '0',
+      position: 'relative',
+      borderTop: '1px solid rgba(255,255,255,0.045)',
+      borderBottom: '1px solid rgba(255,255,255,0.045)',
+      background: 'rgba(255,255,255,0.008)',
+    }}>
+      {/* row 1 — left */}
+      <div style={{ display: 'flex', overflow: 'hidden' }}>
+        <motion.div
+          style={{ display: 'flex', whiteSpace: 'nowrap', willChange: 'transform' }}
+          animate={{ x: ['0%', '-50%'] }}
+          transition={{ duration: 24, repeat: Infinity, ease: 'linear' }}
+        >
+          {[track, track].map((t, i) => (
+            <span key={i} style={{
+              fontFamily: "'Instrument Serif', serif",
+              fontStyle: 'italic',
+              fontSize: 'clamp(52px, 7vw, 82px)',
+              color: 'rgba(255,255,255,0.055)',
+              letterSpacing: '-2px',
+              lineHeight: 1.05,
+              paddingRight: '1em',
+              display: 'inline-block',
+            }}>{t}</span>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* row 2 — right (opposite, slightly different size for visual tension) */}
+      <div style={{ display: 'flex', overflow: 'hidden', marginTop: -8 }}>
+        <motion.div
+          style={{ display: 'flex', whiteSpace: 'nowrap', willChange: 'transform' }}
+          animate={{ x: ['-50%', '0%'] }}
+          transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
+        >
+          {[track, track].map((t, i) => (
+            <span key={i} style={{
+              fontFamily: "'Instrument Serif', serif",
+              fontStyle: 'italic',
+              fontSize: 'clamp(44px, 5.5vw, 66px)',
+              color: 'rgba(255,255,255,0.028)',
+              letterSpacing: '-1.5px',
+              lineHeight: 1.05,
+              paddingRight: '1em',
+              display: 'inline-block',
+            }}>{t}</span>
+          ))}
+        </motion.div>
+      </div>
+    </div>
+  )
+}
+
 // ── navbar ───────────────────────────────────────────────────────────────────
 function Navbar({ onEnter }) {
   return (
-    <nav style={{ position: 'fixed', top: 16, left: 0, right: 0, zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 clamp(20px, 5vw, 64px)' }}>
-      {/* Logo */}
+    <nav style={{
+      position: 'fixed', top: 16, left: 0, right: 0, zIndex: 50,
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      padding: '0 clamp(20px, 5vw, 64px)',
+    }}>
       <div className="liquid-glass" style={{ width: 48, height: 48, borderRadius: '50%', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
         <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontSize: 20, color: '#fff', letterSpacing: '-0.5px', lineHeight: 1 }}>lt</span>
       </div>
 
-      {/* Center links — desktop only */}
       <div className="liquid-glass hidden md:flex" style={{ alignItems: 'center', padding: '6px', borderRadius: 9999, gap: 0 }}>
         {['Home', 'Features', 'Privacy'].map((link) => (
           <span key={link} style={{ padding: '8px 14px', fontSize: 13, color: 'rgba(255,255,255,0.88)', cursor: 'default', fontFamily: "'Barlow', sans-serif", fontWeight: 500, whiteSpace: 'nowrap' }}>
@@ -91,7 +186,6 @@ function Navbar({ onEnter }) {
         </button>
       </div>
 
-      {/* Right — spacer desktop / CTA mobile */}
       <div style={{ width: 48, flexShrink: 0 }} className="hidden md:block" />
       <button
         onClick={onEnter}
@@ -119,7 +213,7 @@ function StatCard({ value, label, Icon }) {
   )
 }
 
-// ── capability card ──────────────────────────────────────────────────────────
+// ── capability card with 3-D mouse tilt ──────────────────────────────────────
 const CAPABILITIES = [
   {
     LucideIcon: Sparkles,
@@ -142,17 +236,38 @@ const CAPABILITIES = [
 ]
 
 function CapabilityCard({ cap, index }) {
+  const cardRef = useRef(null)
   const { LucideIcon } = cap
+
+  const onMouseMove = (e) => {
+    const el = cardRef.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const dx = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2)
+    const dy = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2)
+    el.style.transform = `perspective(700px) rotateY(${dx * 9}deg) rotateX(${-dy * 9}deg) scale3d(1.025,1.025,1.025)`
+    el.style.transition = 'transform 0.08s ease'
+  }
+
+  const onMouseLeave = () => {
+    const el = cardRef.current
+    if (!el) return
+    el.style.transform = 'perspective(700px) rotateY(0deg) rotateX(0deg) scale3d(1,1,1)'
+    el.style.transition = 'transform 0.55s cubic-bezier(0.23, 1, 0.32, 1)'
+  }
+
   return (
     <motion.div
+      ref={cardRef}
       className="liquid-glass"
-      style={{ borderRadius: 20, padding: 24, minHeight: 340, display: 'flex', flexDirection: 'column' }}
+      style={{ borderRadius: 20, padding: 24, minHeight: 340, display: 'flex', flexDirection: 'column', willChange: 'transform', cursor: 'default' }}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.6, delay: index * 0.12, ease: 'easeOut' }}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
     >
-      {/* top row */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
         <div className="liquid-glass" style={{ width: 44, height: 44, borderRadius: 12, display: 'grid', placeItems: 'center', flexShrink: 0 }}>
           <LucideIcon size={20} color="#fff" strokeWidth={1.5} />
@@ -166,10 +281,8 @@ function CapabilityCard({ cap, index }) {
         </div>
       </div>
 
-      {/* spacer */}
       <div style={{ flex: 1 }} />
 
-      {/* bottom */}
       <div style={{ marginTop: 24 }}>
         <h3 style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontSize: 'clamp(28px, 4vw, 36px)', color: '#fff', letterSpacing: '-1px', lineHeight: 1, margin: 0 }}>
           {cap.title}
@@ -186,31 +299,37 @@ function CapabilityCard({ cap, index }) {
 function Landing({ onEnter }) {
   const BARLOW = "'Barlow', sans-serif"
 
+  // scroll-driven parallax — callback form so range is always reactive
+  const { scrollY } = useScroll()
+  const headlineY = useTransform(scrollY, (v) => -v * 0.075)
+  const badgeY    = useTransform(scrollY, (v) => -v * 0.045)
+  const subY      = useTransform(scrollY, (v) => -v * 0.05)
+  const ctaY      = useTransform(scrollY, (v) => -v * 0.035)
+  const statsY    = useTransform(scrollY, (v) => -v * 0.02)
+  const bottomY   = useTransform(scrollY, (v) => -v * 0.015)
+  // orbs scroll slower than page content → appear to be behind
+  const orb1Y     = useTransform(scrollY, (v) => v * 0.06)
+  const orb2Y     = useTransform(scrollY, (v) => v * 0.038)
+  const orb3Y     = useTransform(scrollY, (v) => v * 0.085)
+
   return (
     <div style={{ background: '#000', color: '#fff', minHeight: '100dvh', fontFamily: BARLOW, overflowX: 'hidden' }}>
+      <ScrollProgress />
       <Navbar onEnter={onEnter} />
 
       {/* ══ HERO ══════════════════════════════════════════════════════════════ */}
       <section style={{ minHeight: '100dvh', position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <AmbientBg />
+        <AmbientBg orb1Y={orb1Y} orb2Y={orb2Y} orb3Y={orb3Y} />
 
-        {/* centred content */}
         <div style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 'clamp(96px,15vh,140px) clamp(20px,5vw,60px) 32px',
-          position: 'relative',
-          zIndex: 10,
-          textAlign: 'center',
-          maxWidth: 900,
-          margin: '0 auto',
-          width: '100%',
+          flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
+          justifyContent: 'center', padding: 'clamp(96px,15vh,140px) clamp(20px,5vw,60px) 32px',
+          position: 'relative', zIndex: 10, textAlign: 'center',
+          maxWidth: 900, margin: '0 auto', width: '100%',
         }}>
-          {/* Badge */}
-          <motion.div
+
+          {/* Badge — lightest parallax */}
+          <motion.div style={{ y: badgeY }}
             initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
             transition={{ duration: 0.65, delay: 0.4, ease: 'easeOut' }}
@@ -223,31 +342,31 @@ function Landing({ onEnter }) {
             </div>
           </motion.div>
 
-          {/* Headline */}
-          <div style={{ marginTop: 28 }}>
+          {/* Headline — deepest parallax layer */}
+          <motion.div style={{ y: headlineY, marginTop: 28 }}>
             <BlurText
               text="Your Day Flows Like Liquid"
               className="lt-hero-headline"
               startDelay={0.3}
             />
-          </div>
+          </motion.div>
 
           {/* Sub */}
           <motion.p
+            style={{ y: subY, fontFamily: BARLOW, fontWeight: 300, fontSize: 'clamp(15px, 2.4vw, 18px)', color: 'rgba(255,255,255,0.82)', maxWidth: 520, lineHeight: 1.6, margin: '20px auto 0' }}
             initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
             transition={{ duration: 0.65, delay: 0.85, ease: 'easeOut' }}
-            style={{ fontFamily: BARLOW, fontWeight: 300, fontSize: 'clamp(15px, 2.4vw, 18px)', color: 'rgba(255,255,255,0.82)', maxWidth: 520, lineHeight: 1.6, margin: '20px auto 0' }}
           >
             Describe the life you want. AI generates your perfect schedule. Adjust with your voice in seconds.
           </motion.p>
 
           {/* CTAs */}
           <motion.div
+            style={{ y: ctaY, display: 'flex', alignItems: 'center', gap: 28, marginTop: 36, flexWrap: 'wrap', justifyContent: 'center' }}
             initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
             transition={{ duration: 0.65, delay: 1.1, ease: 'easeOut' }}
-            style={{ display: 'flex', alignItems: 'center', gap: 28, marginTop: 36, flexWrap: 'wrap', justifyContent: 'center' }}
           >
             <button
               onClick={onEnter}
@@ -263,24 +382,24 @@ function Landing({ onEnter }) {
             </button>
           </motion.div>
 
-          {/* Stats */}
+          {/* Stats — barely moves, anchored feel */}
           <motion.div
+            style={{ y: statsY, display: 'flex', gap: 16, marginTop: 48, flexWrap: 'wrap', justifyContent: 'center' }}
             initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
             transition={{ duration: 0.65, delay: 1.3, ease: 'easeOut' }}
-            style={{ display: 'flex', gap: 16, marginTop: 48, flexWrap: 'wrap', justifyContent: 'center' }}
           >
             <StatCard value="&lt; 1s" label="Schedule generation" Icon={Clock} />
             <StatCard value="100%" label="On-device privacy" Icon={Shield} />
           </motion.div>
         </div>
 
-        {/* bottom strip */}
+        {/* trust strip */}
         <motion.div
+          style={{ y: bottomY, position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingBottom: 32 }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.65, delay: 1.45 }}
-          style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, paddingBottom: 32 }}
         >
           <div className="liquid-glass" style={{ borderRadius: 9999, padding: '7px 18px', fontSize: 12, color: 'rgba(255,255,255,0.65)', fontFamily: BARLOW }}>
             No sign-up required · All data stays on your device · Free forever
@@ -288,37 +407,33 @@ function Landing({ onEnter }) {
         </motion.div>
       </section>
 
+      {/* ══ MARQUEE STRIP ═══════════════════════════════════════════════════════ */}
+      <MarqueeStrip />
+
       {/* ══ CAPABILITIES ═══════════════════════════════════════════════════════ */}
       <section style={{ minHeight: '100dvh', position: 'relative', display: 'flex', flexDirection: 'column', padding: 'clamp(64px,10vh,96px) clamp(20px,5vw,80px) clamp(40px,6vh,60px)' }}>
         <AmbientBg />
 
         <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', flex: 1 }}>
-          {/* section header */}
           <div>
             <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', marginBottom: 24, fontFamily: BARLOW, margin: '0 0 24px' }}
+              style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontFamily: BARLOW, margin: '0 0 24px' }}
             >
               // Capabilities
             </motion.p>
-            <BlurText
-              text="Scheduling reinvented"
-              className="lt-section-headline"
-              startDelay={0}
-            />
+            <BlurText text="Scheduling reinvented" className="lt-section-headline" startDelay={0} />
           </div>
 
-          {/* cards */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24, marginTop: 56, marginBottom: 0 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24, marginTop: 56 }}>
             {CAPABILITIES.map((cap, i) => (
               <CapabilityCard key={cap.title} cap={cap} index={i} />
             ))}
           </div>
 
-          {/* final CTA */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
