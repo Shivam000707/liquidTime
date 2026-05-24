@@ -133,17 +133,12 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
       <div className="relative">
         <TopBar userName={userName} synced={synced} syncing={syncing} onNameChange={onNameChange} onReset={onReset} />
 
-        <main className="px-6 sm:px-8 py-8 max-w-[1280px] mx-auto">
-          {/* mobile greeting */}
-          <div className="md:hidden mb-6">
-            <h1 className="text-[24px] font-medium tracking-tight">
+        <main className="px-4 sm:px-8 py-5 sm:py-8 max-w-[1280px] mx-auto">
+          {/* mobile greeting — compact */}
+          <div className="md:hidden mb-4">
+            <h1 className="text-[18px] font-medium tracking-tight text-slate-200">
               Hello, <span className="text-slate-50">{userName}</span>
             </h1>
-            <div className="font-mono text-[13px] text-slate-400 mt-1" style={{ fontVariantNumeric: 'tabular-nums' }}>
-              {blocks.filter((b) => b.type === 'fixed').length} fixed ·{' '}
-              {floatingCount} floating ·{' '}
-              {metrics.buffer.value} buffer
-            </div>
           </div>
 
           {/* mobile metrics strip — above timeline */}
@@ -155,20 +150,25 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
             {/* timeline */}
             <section>
               <div className="flex items-center justify-between mb-5">
-                <div>
-                  <h2 className="text-[22px] font-medium tracking-tight text-slate-50">Today</h2>
-                  <p className="text-[13px] text-slate-400 mt-0.5">
+                <div className="min-w-0">
+                  <h2 className="text-[20px] sm:text-[22px] font-medium tracking-tight text-slate-50">Today</h2>
+                  <p className="text-[12px] sm:text-[13px] text-slate-400 mt-0.5">
                     {blocks.length} blocks
                     {blocks.length > 0 && <> · {doneCount} of {blocks.length} done</>}
                   </p>
                 </div>
                 <button
                   onClick={openAddBlock}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-medium text-slate-100 transition-all"
-                  style={{ background: 'linear-gradient(135deg,#f97316,#ec4899)', boxShadow: '0 8px 24px rgba(249,115,22,0.25), inset 0 1px 0 rgba(255,255,255,0.18)' }}
+                  aria-label="Add block"
+                  className="shrink-0 inline-flex items-center gap-2 rounded-xl text-[13px] font-medium text-slate-100 transition-all hover:brightness-110 active:scale-95"
+                  style={{
+                    background: 'linear-gradient(135deg,#f97316,#ec4899)',
+                    boxShadow: '0 8px 24px rgba(249,115,22,0.25), inset 0 1px 0 rgba(255,255,255,0.18)',
+                    padding: '10px 12px',
+                  }}
                 >
-                  <Plus size={14} strokeWidth={2.4} />
-                  Add block
+                  <Plus size={16} strokeWidth={2.4} />
+                  <span className="hidden sm:inline">Add block</span>
                 </button>
               </div>
 
@@ -202,7 +202,7 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
             </div>
           </div>
 
-          <div style={{ height: 'calc(8rem + env(safe-area-inset-bottom))' }} />
+          <div style={{ height: 'calc(11rem + env(safe-area-inset-bottom))' }} />
         </main>
 
         {/* docked mic — hides while the voice panel is open */}

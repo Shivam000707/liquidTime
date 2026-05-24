@@ -108,7 +108,7 @@ function TopBar({ userName, synced, syncing, onNameChange, onReset }) {
   }
 
   return (
-    <header className="flex items-center justify-between gap-6 px-6 sm:px-8 py-5 border-b border-slate-800/50">
+    <header className="flex items-center justify-between gap-4 sm:gap-6 px-4 sm:px-8 py-3.5 sm:py-5 border-b border-slate-800/50">
       {/* logo */}
       <div className="flex items-center gap-3 min-w-0">
         <div className="relative w-9 h-9 rounded-xl grid place-items-center bg-slate-900 border border-slate-800/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">

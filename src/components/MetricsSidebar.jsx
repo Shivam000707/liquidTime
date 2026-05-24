@@ -51,45 +51,32 @@ function MetricsSidebar({ metrics, insight }) {
     <aside>
       {/* mobile: horizontal scroll chips */}
       <div className="lg:hidden -mx-6 px-6 overflow-x-auto scroll-momentum" style={{ scrollbarWidth: 'none' }}>
-        <div className="flex gap-3 pb-1" style={{ width: 'max-content' }}>
+        <div className="flex gap-2.5 pb-1" style={{ width: 'max-content' }}>
           {[
-            { icon: 'activity',  label: 'Productive',  value: metrics.productive.value,  sub: metrics.productive.sub,  accent: 'cyan' },
-            { icon: 'dumbbell',  label: 'Bulk window', value: metrics.bulkWindow.value,  sub: metrics.bulkWindow.sub,  accent: 'violet' },
-            { icon: 'hourglass', label: 'Buffer',      value: metrics.buffer.value,      sub: metrics.buffer.sub,      accent: 'cyan' },
+            { icon: 'activity',  label: 'Productive',  value: metrics.productive.value,  accent: 'cyan' },
+            { icon: 'dumbbell',  label: 'Bulk',        value: metrics.bulkWindow.value,  accent: 'violet' },
+            { icon: 'hourglass', label: 'Buffer',      value: metrics.buffer.value,      accent: 'cyan' },
           ].map((m) => {
             const Icon = TILE_ICONS[m.icon]
             return (
               <div key={m.label}
-                className="flex items-center gap-3 px-4 py-3 rounded-2xl shrink-0"
+                className="flex items-center gap-2.5 px-3 py-2 rounded-xl shrink-0"
                 style={{
                   background: 'rgba(15,23,42,0.7)',
-                  border: '1px solid rgba(51,65,85,0.5)',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                  border: '1px solid rgba(51,65,85,0.45)',
                 }}
               >
-                <div className="w-8 h-8 rounded-xl grid place-items-center shrink-0"
+                <div className="w-7 h-7 rounded-lg grid place-items-center shrink-0"
                   style={{ background: m.accent === 'violet' ? 'rgba(139,92,246,0.15)' : 'rgba(6,182,212,0.12)' }}>
-                  {Icon && <Icon size={14} strokeWidth={1.6} style={{ color: m.accent === 'violet' ? '#a78bfa' : '#67e8f9' }} />}
+                  {Icon && <Icon size={13} strokeWidth={1.6} style={{ color: m.accent === 'violet' ? '#a78bfa' : '#67e8f9' }} />}
                 </div>
                 <div>
-                  <div className="font-mono text-[18px] font-medium text-slate-50 leading-none" style={{ fontVariantNumeric: 'tabular-nums' }}>{m.value}</div>
-                  <div className="text-[10px] text-slate-500 mt-0.5 uppercase tracking-[0.06em] font-semibold">{m.label}</div>
+                  <div className="font-mono text-[14px] font-medium text-slate-50 leading-none" style={{ fontVariantNumeric: 'tabular-nums' }}>{m.value}</div>
+                  <div className="text-[9px] text-slate-500 mt-0.5 uppercase tracking-[0.06em] font-semibold">{m.label}</div>
                 </div>
               </div>
             )
           })}
-          {/* AI insight chip */}
-          <div className="flex items-center gap-2.5 px-4 py-3 rounded-2xl shrink-0 max-w-[240px]"
-            style={{
-              background: 'linear-gradient(135deg, rgba(6,182,212,0.08), rgba(139,92,246,0.10))',
-              border: '1px solid rgba(6,182,212,0.22)',
-            }}>
-            <span className="inline-flex w-6 h-6 rounded-lg items-center justify-center shrink-0"
-              style={{ background: 'linear-gradient(135deg,#06b6d4,#8b5cf6)' }}>
-              <Sparkles size={11} strokeWidth={2} style={{ color: '#fff' }} />
-            </span>
-            <p className="text-[12px] leading-snug text-slate-300 line-clamp-2">{insight}</p>
-          </div>
         </div>
       </div>
 

@@ -76,7 +76,7 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
       onClick={onEdit ? () => onEdit(block) : undefined}
       onKeyDown={onEdit ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onEdit(block) } } : undefined}
       className={[
-        'group relative rounded-2xl px-5 py-4 transition-all duration-300',
+        'group relative rounded-2xl px-4 sm:px-5 py-3.5 sm:py-4 transition-all duration-300',
         'flex flex-col gap-0',
         isFixed ? 'bg-slate-900/80 border border-slate-700/60' : 'bg-slate-900/40',
         onEdit ? 'cursor-pointer hover:brightness-110' : '',
@@ -90,14 +90,14 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
       }}
     >
       {/* main row */}
-      <div className="flex items-start gap-4">
+      <div className="flex items-start gap-3 sm:gap-4">
         {/* done toggle — 44px touch target */}
         {onToggleDone && (
           <button
             onClick={(e) => { e.stopPropagation(); onToggleDone(block) }}
             aria-label={isDone ? `Mark ${block.title} not done` : `Mark ${block.title} done`}
             aria-pressed={isDone}
-            className="shrink-0 self-center relative grid place-items-center transition-all"
+            className="shrink-0 self-start sm:self-center relative grid place-items-center transition-all"
             style={{ width: 44, height: 44, margin: -9 }}
           >
             <span className="w-6 h-6 rounded-full grid place-items-center transition-all"
@@ -109,50 +109,53 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
           </button>
         )}
 
-        {/* time column */}
-        <div className="w-[88px] shrink-0 pt-0.5">
-          <div className="font-mono text-[13px] font-medium text-slate-200" style={{ fontVariantNumeric: 'tabular-nums' }}>
-            {block.start}
-          </div>
-          <div className="font-mono text-[11px] text-slate-500" style={{ fontVariantNumeric: 'tabular-nums' }}>
-            {block.durationMin} min
-          </div>
-        </div>
-
-        {/* category glyph */}
+        {/* category glyph — smaller on mobile */}
         <div
-          className={['w-10 h-10 rounded-xl grid place-items-center shrink-0', isFixed ? 'bg-slate-800/70 text-slate-300' : 'text-orange-200'].join(' ')}
+          className={['w-9 h-9 sm:w-10 sm:h-10 rounded-xl grid place-items-center shrink-0 self-start sm:self-center', isFixed ? 'bg-slate-800/70 text-slate-300' : 'text-orange-200'].join(' ')}
           style={isFixed ? undefined : { background: 'rgba(249,115,22,0.15)' }}
         >
-          <CategoryIcon category={block.category} size={18} strokeWidth={1.5} />
+          <CategoryIcon category={block.category} size={16} strokeWidth={1.5} />
         </div>
 
-        {/* body */}
+        {/* body — title takes available width, meta wraps below */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <div className={['text-[15px] font-medium truncate', isDone ? 'line-through text-slate-400' : 'text-slate-50'].join(' ')}>{block.title}</div>
+          <div className="flex items-start gap-2 mb-1.5">
+            <div className={['text-[15px] sm:text-[16px] font-medium leading-snug flex-1 min-w-0 break-words', isDone ? 'line-through text-slate-400' : 'text-slate-50'].join(' ')}>{block.title}</div>
             {block.changed && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider"
+              <span className="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider"
                 style={{ background: 'linear-gradient(135deg,rgba(249,115,22,0.18),rgba(236,72,153,0.18))', color: '#fb923c', border: '1px solid rgba(249,115,22,0.35)' }}>
                 <Sparkles size={10} strokeWidth={2} />
                 moved
               </span>
             )}
           </div>
-          <div className="flex items-center gap-2 text-[12px] text-slate-400">
-            <span
-              className={['inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-[0.06em]', isFixed ? 'bg-slate-800/60 text-slate-400 border border-slate-700/60' : ''].join(' ')}
-              style={isFixed ? undefined : { background: 'rgba(249,115,22,0.12)', color: '#fb923c', border: '1px solid rgba(249,115,22,0.35)' }}
-            >
-              {isFixed ? <Lock size={10} strokeWidth={2} /> : <MoveVertical size={10} strokeWidth={2} />}
-              {isFixed ? 'fixed' : 'floating'}
+          {/* meta row — wraps cleanly on narrow widths */}
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] text-slate-400">
+            <span className="font-mono text-slate-300" style={{ fontVariantNumeric: 'tabular-nums' }}>
+              {block.start}
             </span>
             <span className="text-slate-700">·</span>
-            <span className="truncate">{block.location || block.hint}</span>
+            <span className="font-mono text-slate-500" style={{ fontVariantNumeric: 'tabular-nums' }}>
+              {block.durationMin}m
+            </span>
+            <span className="text-slate-700">·</span>
+            <span
+              className={['inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-[0.06em]', isFixed ? 'bg-slate-800/60 text-slate-400 border border-slate-700/60' : ''].join(' ')}
+              style={isFixed ? undefined : { background: 'rgba(249,115,22,0.12)', color: '#fb923c', border: '1px solid rgba(249,115,22,0.35)' }}
+            >
+              {isFixed ? <Lock size={9} strokeWidth={2} /> : <MoveVertical size={9} strokeWidth={2} />}
+              {isFixed ? 'fixed' : 'floating'}
+            </span>
+            {(block.location || block.hint) && (
+              <>
+                <span className="text-slate-700">·</span>
+                <span className="break-words">{block.location || block.hint}</span>
+              </>
+            )}
             {tasks.length > 0 && (
               <>
                 <span className="text-slate-700">·</span>
-                <span className="text-[11px] text-slate-500 shrink-0">
+                <span className="text-[11px] text-slate-500">
                   {doneTasks}/{tasks.length} tasks
                 </span>
               </>
