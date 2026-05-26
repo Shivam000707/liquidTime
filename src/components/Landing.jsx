@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { Sparkles, Mic2, Shuffle, Clock, Shield } from 'lucide-react'
+import LiquidBackground from './LiquidBackground'
 
 // ── icons ────────────────────────────────────────────────────────────────────
 function ArrowUpRight({ size = 18 }) {
@@ -28,7 +29,7 @@ function ScrollProgress() {
       style={{
         position: 'fixed', top: 0, left: 0, right: 0, height: 2, zIndex: 100,
         scaleX, transformOrigin: '0%',
-        background: 'linear-gradient(90deg, rgba(6,182,212,0.9) 0%, rgba(139,92,246,0.85) 50%, rgba(249,115,22,0.9) 100%)',
+        background: 'linear-gradient(90deg, rgba(16,185,129,0.9) 0%, rgba(52,211,153,0.85) 50%, rgba(163,230,53,0.9) 100%)',
       }}
     />
   )
@@ -40,22 +41,22 @@ function AmbientBg({ orb1Y = 0, orb2Y = 0, orb3Y = 0 }) {
     <div aria-hidden="true" style={{ pointerEvents: 'none', position: 'absolute', inset: 0, overflow: 'hidden' }}>
       <motion.div style={{
         position: 'absolute', top: '-20%', right: '-8%', width: 700, height: 700,
-        borderRadius: '50%', background: 'radial-gradient(circle, rgba(6,182,212,0.14) 0%, transparent 65%)',
+        borderRadius: '50%', background: 'radial-gradient(circle, rgba(16,185,129,0.18) 0%, transparent 65%)',
         y: orb1Y,
       }} />
       <motion.div style={{
         position: 'absolute', top: '38%', left: '-12%', width: 580, height: 580,
-        borderRadius: '50%', background: 'radial-gradient(circle, rgba(139,92,246,0.11) 0%, transparent 65%)',
+        borderRadius: '50%', background: 'radial-gradient(circle, rgba(52,211,153,0.12) 0%, transparent 65%)',
         y: orb2Y,
       }} />
       <motion.div style={{
         position: 'absolute', bottom: '-12%', left: '28%', width: 480, height: 480,
-        borderRadius: '50%', background: 'radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 65%)',
+        borderRadius: '50%', background: 'radial-gradient(circle, rgba(163,230,53,0.07) 0%, transparent 65%)',
         y: orb3Y,
       }} />
       <div style={{
         position: 'absolute', inset: 0,
-        backgroundImage: 'linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px)',
+        backgroundImage: 'linear-gradient(rgba(52,211,153,0.018) 1px, transparent 1px), linear-gradient(90deg, rgba(52,211,153,0.018) 1px, transparent 1px)',
         backgroundSize: '88px 88px',
       }} />
     </div>
@@ -102,16 +103,15 @@ function BlurText({ text, className, startDelay = 0 }) {
 const MARQUEE_SEGMENT = 'Your Day · Flows Like Liquid · AI Scheduling · Voice First · On Device · '
 
 function MarqueeStrip() {
-  // Duplicate to create seamless loop — one unit = 50% of the track
   const track = MARQUEE_SEGMENT.repeat(6)
   return (
     <div style={{
       overflow: 'hidden',
       padding: '0',
       position: 'relative',
-      borderTop: '1px solid rgba(255,255,255,0.045)',
-      borderBottom: '1px solid rgba(255,255,255,0.045)',
-      background: 'rgba(255,255,255,0.008)',
+      borderTop: '1px solid rgba(52,211,153,0.07)',
+      borderBottom: '1px solid rgba(52,211,153,0.07)',
+      background: 'rgba(16,185,129,0.012)',
     }}>
       {/* row 1 — left */}
       <div style={{ display: 'flex', overflow: 'hidden' }}>
@@ -125,7 +125,7 @@ function MarqueeStrip() {
               fontFamily: "'Instrument Serif', serif",
               fontStyle: 'italic',
               fontSize: 'clamp(52px, 7vw, 82px)',
-              color: 'rgba(255,255,255,0.055)',
+              color: 'rgba(110,231,183,0.055)',
               letterSpacing: '-2px',
               lineHeight: 1.05,
               paddingRight: '1em',
@@ -135,7 +135,7 @@ function MarqueeStrip() {
         </motion.div>
       </div>
 
-      {/* row 2 — right (opposite, slightly different size for visual tension) */}
+      {/* row 2 — right */}
       <div style={{ display: 'flex', overflow: 'hidden', marginTop: -8 }}>
         <motion.div
           style={{ display: 'flex', whiteSpace: 'nowrap', willChange: 'transform' }}
@@ -147,7 +147,7 @@ function MarqueeStrip() {
               fontFamily: "'Instrument Serif', serif",
               fontStyle: 'italic',
               fontSize: 'clamp(44px, 5.5vw, 66px)',
-              color: 'rgba(255,255,255,0.028)',
+              color: 'rgba(110,231,183,0.03)',
               letterSpacing: '-1.5px',
               lineHeight: 1.05,
               paddingRight: '1em',
@@ -168,11 +168,11 @@ function Navbar({ onEnter }) {
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '0 clamp(20px, 5vw, 64px)',
     }}>
-      <div className="liquid-glass" style={{ width: 48, height: 48, borderRadius: '50%', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+      <div className="liquid-glass-mint" style={{ width: 48, height: 48, borderRadius: '50%', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
         <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontSize: 20, color: '#fff', letterSpacing: '-0.5px', lineHeight: 1 }}>lt</span>
       </div>
 
-      <div className="liquid-glass hidden md:flex" style={{ alignItems: 'center', padding: '6px', borderRadius: 9999, gap: 0 }}>
+      <div className="liquid-glass-mint hidden md:flex" style={{ alignItems: 'center', padding: '6px', borderRadius: 9999, gap: 0 }}>
         {['Home', 'Features', 'Privacy'].map((link) => (
           <span key={link} style={{ padding: '8px 14px', fontSize: 13, color: 'rgba(255,255,255,0.88)', cursor: 'default', fontFamily: "'Barlow', sans-serif", fontWeight: 500, whiteSpace: 'nowrap' }}>
             {link}
@@ -180,7 +180,13 @@ function Navbar({ onEnter }) {
         ))}
         <button
           onClick={onEnter}
-          style={{ background: '#fff', color: '#000', borderRadius: 9999, padding: '8px 18px', fontSize: 13, fontFamily: "'Barlow', sans-serif", fontWeight: 600, border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 4, whiteSpace: 'nowrap', marginLeft: 4 }}
+          style={{
+            background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+            color: '#fff', borderRadius: 9999, padding: '8px 18px', fontSize: 13,
+            fontFamily: "'Barlow', sans-serif", fontWeight: 600, border: 'none', cursor: 'pointer',
+            display: 'inline-flex', alignItems: 'center', gap: 4, whiteSpace: 'nowrap', marginLeft: 4,
+            boxShadow: '0 0 12px rgba(16,185,129,0.4)',
+          }}
         >
           Get Started <ArrowUpRight size={13} />
         </button>
@@ -189,7 +195,7 @@ function Navbar({ onEnter }) {
       <div style={{ width: 48, flexShrink: 0 }} className="hidden md:block" />
       <button
         onClick={onEnter}
-        className="liquid-glass md:hidden"
+        className="liquid-glass-mint md:hidden"
         style={{ borderRadius: 9999, padding: '10px 16px', fontSize: 13, fontFamily: "'Barlow', sans-serif", fontWeight: 500, color: '#fff', border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6, background: 'transparent' }}
       >
         Start <ArrowUpRight size={13} />
@@ -201,9 +207,9 @@ function Navbar({ onEnter }) {
 // ── stat card ────────────────────────────────────────────────────────────────
 function StatCard({ value, label, Icon }) {
   return (
-    <div className="liquid-glass" style={{ padding: '20px 22px', borderRadius: 20, width: 'clamp(160px, 22vw, 210px)', display: 'flex', flexDirection: 'column', gap: 14 }}>
-      <div style={{ width: 30, height: 30, borderRadius: 8, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.10)', display: 'grid', placeItems: 'center' }}>
-        <Icon size={15} color="rgba(255,255,255,0.7)" strokeWidth={1.6} />
+    <div className="liquid-glass-mint" style={{ padding: '20px 22px', borderRadius: 20, width: 'clamp(160px, 22vw, 210px)', display: 'flex', flexDirection: 'column', gap: 14 }}>
+      <div style={{ width: 30, height: 30, borderRadius: 8, background: 'rgba(16,185,129,0.12)', border: '1px solid rgba(16,185,129,0.28)', display: 'grid', placeItems: 'center' }}>
+        <Icon size={15} color="rgba(52,211,153,0.9)" strokeWidth={1.6} />
       </div>
       <div>
         <div style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontSize: 'clamp(28px, 4vw, 36px)', color: '#fff', letterSpacing: '-1px', lineHeight: 1 }}>{value}</div>
@@ -259,7 +265,7 @@ function CapabilityCard({ cap, index }) {
   return (
     <motion.div
       ref={cardRef}
-      className="liquid-glass"
+      className="liquid-glass-mint"
       style={{ borderRadius: 20, padding: 24, minHeight: 340, display: 'flex', flexDirection: 'column', willChange: 'transform', cursor: 'default' }}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -269,12 +275,12 @@ function CapabilityCard({ cap, index }) {
       onMouseLeave={onMouseLeave}
     >
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
-        <div className="liquid-glass" style={{ width: 44, height: 44, borderRadius: 12, display: 'grid', placeItems: 'center', flexShrink: 0 }}>
-          <LucideIcon size={20} color="#fff" strokeWidth={1.5} />
+        <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(52,211,153,0.25)', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+          <LucideIcon size={20} color="#6ee7b7" strokeWidth={1.5} />
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: 6, maxWidth: '70%' }}>
           {cap.tags.map((t) => (
-            <span key={t} className="liquid-glass" style={{ borderRadius: 9999, padding: '4px 12px', fontSize: 11, color: 'rgba(255,255,255,0.82)', fontFamily: "'Barlow', sans-serif", whiteSpace: 'nowrap' }}>
+            <span key={t} className="liquid-glass-mint" style={{ borderRadius: 9999, padding: '4px 12px', fontSize: 11, color: 'rgba(110,231,183,0.9)', fontFamily: "'Barlow', sans-serif", whiteSpace: 'nowrap' }}>
               {t}
             </span>
           ))}
@@ -299,7 +305,6 @@ function CapabilityCard({ cap, index }) {
 function Landing({ onEnter }) {
   const BARLOW = "'Barlow', sans-serif"
 
-  // scroll-driven parallax — callback form so range is always reactive
   const { scrollY } = useScroll()
   const headlineY = useTransform(scrollY, (v) => -v * 0.075)
   const badgeY    = useTransform(scrollY, (v) => -v * 0.045)
@@ -307,13 +312,13 @@ function Landing({ onEnter }) {
   const ctaY      = useTransform(scrollY, (v) => -v * 0.035)
   const statsY    = useTransform(scrollY, (v) => -v * 0.02)
   const bottomY   = useTransform(scrollY, (v) => -v * 0.015)
-  // orbs scroll slower than page content → appear to be behind
   const orb1Y     = useTransform(scrollY, (v) => v * 0.06)
   const orb2Y     = useTransform(scrollY, (v) => v * 0.038)
   const orb3Y     = useTransform(scrollY, (v) => v * 0.085)
 
   return (
-    <div style={{ background: '#000', color: '#fff', minHeight: '100dvh', fontFamily: BARLOW, overflowX: 'hidden' }}>
+    <div style={{ background: '#010806', color: '#fff', minHeight: '100dvh', fontFamily: BARLOW, overflow: 'hidden', position: 'relative' }}>
+      <LiquidBackground />
       <ScrollProgress />
       <Navbar onEnter={onEnter} />
 
@@ -328,14 +333,14 @@ function Landing({ onEnter }) {
           maxWidth: 900, margin: '0 auto', width: '100%',
         }}>
 
-          {/* Badge — lightest parallax */}
+          {/* Badge */}
           <motion.div style={{ y: badgeY }}
             initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
             transition={{ duration: 0.65, delay: 0.4, ease: 'easeOut' }}
           >
-            <div className="liquid-glass" style={{ borderRadius: 9999, display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 8px 6px 6px' }}>
-              <span style={{ background: '#fff', color: '#000', borderRadius: 9999, fontSize: 11, fontWeight: 700, fontFamily: BARLOW, padding: '3px 10px', lineHeight: 1.4 }}>New</span>
+            <div className="liquid-glass-mint" style={{ borderRadius: 9999, display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 8px 6px 6px' }}>
+              <span style={{ background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)', color: '#fff', borderRadius: 9999, fontSize: 11, fontWeight: 700, fontFamily: BARLOW, padding: '3px 10px', lineHeight: 1.4 }}>New</span>
               <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.88)', fontFamily: BARLOW, paddingRight: 6 }}>
                 AI-powered scheduling · voice-first
               </span>
@@ -370,13 +375,19 @@ function Landing({ onEnter }) {
           >
             <button
               onClick={onEnter}
-              className="liquid-glass-strong"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 24px', borderRadius: 9999, color: '#fff', fontSize: 14, fontFamily: BARLOW, fontWeight: 500, cursor: 'pointer', border: 'none', background: 'transparent' }}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                padding: '13px 26px', borderRadius: 9999,
+                background: 'linear-gradient(135deg, #059669 0%, #10b981 60%, #34d399 100%)',
+                color: '#fff', fontSize: 14, fontFamily: BARLOW, fontWeight: 600,
+                cursor: 'pointer', border: 'none', letterSpacing: '0.01em',
+                boxShadow: '0 0 28px rgba(16,185,129,0.50), 0 0 56px rgba(16,185,129,0.18), inset 0 1px 0 rgba(255,255,255,0.18)',
+              }}
             >
               Start Scheduling <ArrowUpRight size={16} />
             </button>
             <button
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 7, color: 'rgba(255,255,255,0.78)', fontSize: 14, fontFamily: BARLOW, background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 7, color: 'rgba(110,231,183,0.85)', fontSize: 14, fontFamily: BARLOW, background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
             >
               <PlayFill size={14} /> See how it works
             </button>
@@ -401,7 +412,7 @@ function Landing({ onEnter }) {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.65, delay: 1.45 }}
         >
-          <div className="liquid-glass" style={{ borderRadius: 9999, padding: '7px 18px', fontSize: 12, color: 'rgba(255,255,255,0.65)', fontFamily: BARLOW }}>
+          <div className="liquid-glass-mint" style={{ borderRadius: 9999, padding: '7px 18px', fontSize: 12, color: 'rgba(110,231,183,0.7)', fontFamily: BARLOW }}>
             No sign-up required · All data stays on your device · Free forever
           </div>
         </motion.div>
@@ -421,7 +432,7 @@ function Landing({ onEnter }) {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontFamily: BARLOW, margin: '0 0 24px' }}
+              style={{ fontSize: 13, color: 'rgba(52,211,153,0.65)', fontFamily: BARLOW, margin: '0 0 24px' }}
             >
               // Capabilities
             </motion.p>
@@ -443,7 +454,14 @@ function Landing({ onEnter }) {
           >
             <button
               onClick={onEnter}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', borderRadius: 9999, background: '#fff', color: '#000', fontSize: 14, fontFamily: BARLOW, fontWeight: 600, border: 'none', cursor: 'pointer' }}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                padding: '14px 28px', borderRadius: 9999,
+                background: 'linear-gradient(135deg, #059669 0%, #10b981 60%, #34d399 100%)',
+                color: '#fff', fontSize: 14, fontFamily: BARLOW, fontWeight: 600,
+                border: 'none', cursor: 'pointer',
+                boxShadow: '0 0 20px rgba(16,185,129,0.45), 0 0 40px rgba(16,185,129,0.15)',
+              }}
             >
               Start Scheduling Free <ArrowUpRight size={16} />
             </button>
