@@ -39,21 +39,6 @@ function ScrollProgress() {
 function AmbientBg({ orb1Y = 0, orb2Y = 0, orb3Y = 0 }) {
   return (
     <div aria-hidden="true" style={{ pointerEvents: 'none', position: 'absolute', inset: 0, overflow: 'hidden' }}>
-      {/* Interactive Dither Wave Background */}
-      <div style={{ position: 'absolute', inset: 0, opacity: 0.65 }}>
-        <Dither
-          waveColor={[0.35, 0.05, 0.75]}
-          disableAnimation={false}
-          enableMouseInteraction={true}
-          mouseRadius={0.4}
-          colorNum={5}
-          pixelSize={3}
-          waveAmplitude={0.35}
-          waveFrequency={2.5}
-          waveSpeed={0.04}
-        />
-      </div>
-
       <motion.div style={{
         position: 'absolute', top: '-20%', right: '-8%', width: 700, height: 700,
         borderRadius: '50%', background: 'radial-gradient(circle, rgba(16,185,129,0.18) 0%, transparent 65%)',
