@@ -1,11 +1,8 @@
 import { useEffect } from 'react'
 import { Sparkles, Undo2, X } from 'lucide-react'
+import { GRAD, SHADOW, BORDER, BLUR, CLR } from '../styles/tokens'
 
-/**
- * Transient bottom-center notice. `toast` is either null or
- * { message, actionLabel?, onAction? }. Auto-dismisses after a delay —
- * longer when an action (e.g. Undo) is offered.
- */
+// Auto-dismisses after a delay — longer when an action (e.g. Undo) is offered.
 function Toast({ toast, onDismiss }) {
   useEffect(() => {
     if (!toast) return
@@ -23,18 +20,17 @@ function Toast({ toast, onDismiss }) {
       <div
         className="flex items-start gap-3 rounded-2xl px-4 py-3"
         style={{
-          background: 'linear-gradient(180deg, rgba(15,23,42,0.97), rgba(2,6,23,0.97))',
-          border: '1px solid rgba(16,185,129,0.32)',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(16,185,129,0.14)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          background: GRAD.toast,
+          border: BORDER.emerald32,
+          boxShadow: SHADOW.toast,
+          ...BLUR.md,
         }}
       >
         <span
           className="inline-flex w-6 h-6 rounded-lg items-center justify-center shrink-0 mt-0.5"
-          style={{ background: 'linear-gradient(135deg,#10b981,#34d399)' }}
+          style={{ background: GRAD.primary }}
         >
-          <Sparkles size={12} strokeWidth={2} style={{ color: '#fff' }} />
+          <Sparkles size={12} strokeWidth={2} className="text-white" />
         </span>
 
         <p className="flex-1 min-w-0 text-[13px] leading-relaxed text-slate-200">
@@ -45,7 +41,7 @@ function Toast({ toast, onDismiss }) {
           <button
             onClick={() => { toast.onAction?.(); onDismiss() }}
             className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium text-emerald-200 transition-colors hover:brightness-125"
-            style={{ background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.35)' }}
+            style={{ background: CLR.emeraldFill15, border: BORDER.emerald35 }}
           >
             <Undo2 size={13} strokeWidth={2} />
             {toast.actionLabel}

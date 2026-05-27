@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import { BookOpen, Dumbbell, Utensils, Code2, Circle, Pencil, Sparkles, Check, Plus, X } from 'lucide-react'
+import { GRAD, SHADOW, BORDER, CLR } from '../styles/tokens'
 
 const CATEGORY_ICONS = { class: BookOpen, gym: Dumbbell, food: Utensils, work: Code2 }
 
@@ -17,11 +18,13 @@ function TaskItem({ task, onToggle, onDelete }) {
         className="shrink-0 relative grid place-items-center transition-all"
         style={{ width: 28, height: 28, margin: -6 }}
       >
-        <span className="w-4 h-4 rounded grid place-items-center"
+        <span
+          className="w-4 h-4 rounded grid place-items-center"
           style={task.done
-            ? { background: 'linear-gradient(135deg,#10b981,#34d399)', border: '1px solid transparent' }
-            : { background: 'transparent', border: '1.5px solid rgba(100,116,139,0.5)' }}>
-          {task.done && <Check size={9} strokeWidth={3} style={{ color: '#fff' }} />}
+            ? { background: GRAD.primary, border: '1px solid transparent' }
+            : { background: 'transparent', border: '1.5px solid rgba(100,116,139,0.5)' }}
+        >
+          {task.done && <Check size={9} strokeWidth={3} className="text-white" />}
         </span>
       </button>
       <span className={[
@@ -50,9 +53,9 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
   const tasks = block.tasks ?? []
   const doneTasks = tasks.filter((t) => t.done).length
 
-  const baseGlow = block.changed
-    ? '0 0 0 1px rgba(16,185,129,0.35), 0 0 32px rgba(16,185,129,0.18)'
-    : '0 8px 24px rgba(0,0,0,0.3)'
+  const blockShadow = block.changed
+    ? `${SHADOW.blockGlow}, inset 0 1px 0 rgba(255,255,255,0.05)`
+    : `${SHADOW.block}, inset 0 1px 0 rgba(255,255,255,0.05)`
 
   const openAddTask = (e) => {
     e.stopPropagation()
@@ -61,9 +64,7 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
   }
 
   const commitTask = () => {
-    if (taskDraft.trim()) {
-      onAddTask(block.id, taskDraft.trim())
-    }
+    if (taskDraft.trim()) onAddTask(block.id, taskDraft.trim())
     setTaskDraft('')
     setAddingTask(false)
   }
@@ -82,9 +83,9 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
         isDone ? 'opacity-55' : '',
       ].join(' ')}
       style={{
-        boxShadow: `${baseGlow}, inset 0 1px 0 rgba(255,255,255,0.05)`,
-        border: '1px solid rgba(16,185,129,0.28)',
-        backgroundImage: 'linear-gradient(180deg, rgba(16,185,129,0.03), transparent 80%)',
+        boxShadow: blockShadow,
+        border: BORDER.emerald28,
+        backgroundImage: GRAD.blockBg,
       }}
     >
       {/* main row */}
@@ -98,44 +99,45 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
             className="shrink-0 self-start sm:self-center relative grid place-items-center transition-all"
             style={{ width: 44, height: 44, margin: -9 }}
           >
-            <span className="w-6 h-6 rounded-full grid place-items-center transition-all"
+            <span
+              className="w-6 h-6 rounded-full grid place-items-center transition-all"
               style={isDone
-                ? { background: 'linear-gradient(135deg,#10b981,#34d399)', border: '1px solid transparent' }
-                : { background: 'transparent', border: '1.5px solid rgba(100,116,139,0.55)' }}>
-              {isDone && <Check size={13} strokeWidth={3} style={{ color: '#fff' }} />}
+                ? { background: GRAD.primary, border: '1px solid transparent' }
+                : { background: 'transparent', border: '1.5px solid rgba(100,116,139,0.55)' }}
+            >
+              {isDone && <Check size={13} strokeWidth={3} className="text-white" />}
             </span>
           </button>
         )}
 
-        {/* category glyph — smaller on mobile */}
+        {/* category glyph */}
         <div
           className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl grid place-items-center shrink-0 self-start sm:self-center text-emerald-200"
-          style={{ background: 'rgba(16,185,129,0.15)' }}
+          style={{ background: CLR.emeraldFill15 }}
         >
           <CategoryIcon category={block.category} size={16} strokeWidth={1.5} />
         </div>
 
-        {/* body — title takes available width, meta wraps below */}
+        {/* body */}
         <div className="flex-1 min-w-0">
           <div className="flex items-start gap-2 mb-1.5">
-            <div className={['text-[15px] sm:text-[16px] font-medium leading-snug flex-1 min-w-0 break-words', isDone ? 'line-through text-slate-400' : 'text-slate-50'].join(' ')}>{block.title}</div>
+            <div className={['text-[15px] sm:text-[16px] font-medium leading-snug flex-1 min-w-0 break-words', isDone ? 'line-through text-slate-400' : 'text-slate-50'].join(' ')}>
+              {block.title}
+            </div>
             {block.changed && (
-              <span className="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider"
-                style={{ background: 'linear-gradient(135deg,rgba(16,185,129,0.18),rgba(52,211,153,0.18))', color: '#6ee7b7', border: '1px solid rgba(16,185,129,0.35)' }}>
+              <span
+                className="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider"
+                style={{ background: 'linear-gradient(135deg,rgba(16,185,129,0.18),rgba(52,211,153,0.18))', color: CLR.emeraldLight, border: BORDER.emerald35 }}
+              >
                 <Sparkles size={10} strokeWidth={2} />
                 moved
               </span>
             )}
           </div>
-          {/* meta row — wraps cleanly on narrow widths */}
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] text-slate-400">
-            <span className="font-mono text-slate-300" style={{ fontVariantNumeric: 'tabular-nums' }}>
-              {block.start}
-            </span>
+            <span className="font-mono text-slate-300" style={{ fontVariantNumeric: 'tabular-nums' }}>{block.start}</span>
             <span className="text-slate-700">·</span>
-            <span className="font-mono text-slate-500" style={{ fontVariantNumeric: 'tabular-nums' }}>
-              {block.durationMin}m
-            </span>
+            <span className="font-mono text-slate-500" style={{ fontVariantNumeric: 'tabular-nums' }}>{block.durationMin}m</span>
             {(block.location || block.hint) && (
               <>
                 <span className="text-slate-700">·</span>
@@ -145,9 +147,7 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
             {tasks.length > 0 && (
               <>
                 <span className="text-slate-700">·</span>
-                <span className="text-[11px] text-slate-500">
-                  {doneTasks}/{tasks.length} tasks
-                </span>
+                <span className="text-[11px] text-slate-500">{doneTasks}/{tasks.length} tasks</span>
               </>
             )}
           </div>
@@ -161,7 +161,7 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
         )}
       </div>
 
-      {/* ── tasks section ── */}
+      {/* tasks section */}
       {(tasks.length > 0 || addingTask || onAddTask) && (
         <div
           className="mt-3 pl-4 border-l"
@@ -169,7 +169,6 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
           onClick={(e) => e.stopPropagation()}
           onKeyDown={(e) => e.stopPropagation()}
         >
-          {/* task list */}
           {tasks.map((task) => (
             <TaskItem
               key={task.id}
@@ -179,7 +178,6 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
             />
           ))}
 
-          {/* inline add input */}
           {addingTask ? (
             <div className="flex items-center gap-2 py-0.5">
               <div className="shrink-0 w-4 h-4 rounded" style={{ border: '1.5px solid rgba(100,116,139,0.4)' }} />

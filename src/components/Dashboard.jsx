@@ -11,8 +11,8 @@ import { useSchedule } from '../hooks/useSchedule'
 import { useSpeechRecognition } from '../hooks/useSpeechRecognition'
 import { sendVoiceCommand, friendlyError } from '../services/api'
 import { computeMetrics } from '../utils/metrics'
+import { GRAD, SHADOW, BORDER, BLUR, CLR } from '../styles/tokens'
 
-/** Carry `done` flags from the old schedule onto the reflowed one, matched by id. */
 function mergeDoneState(next, prev) {
   const doneIds = new Set(prev.filter((b) => b.done).map((b) => b.id))
   return next.map((b) => (doneIds.has(b.id) ? { ...b, done: true } : b))
@@ -30,7 +30,7 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
   const [voiceSubmitting, setVoiceSubmitting] = useState(false)
   const [voiceError, setVoiceError]           = useState(null)
 
-  const [toast, setToast]               = useState(null)
+  const [toast, setToast]                = useState(null)
   const [lastAIMessage, setLastAIMessage] = useState(null)
 
   const [editorOpen, setEditorOpen]     = useState(false)
@@ -39,9 +39,7 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
 
   const metrics = computeMetrics(blocks)
   const doneCount = blocks.filter((b) => b.done).length
-
-  const insight = lastAIMessage
-    || `${metrics.buffer.value} buffer · ${blocks.length} blocks ready to reflow.`
+  const insight = lastAIMessage || `${metrics.buffer.value} buffer · ${blocks.length} blocks ready to reflow.`
 
   const openVoice = useCallback(() => {
     setVoiceError(null)
@@ -78,10 +76,7 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
       setToast({
         message: message || 'Schedule updated.',
         actionLabel: 'Undo',
-        onAction: () => {
-          updateBlocks(prev)
-          setLastAIMessage(null)
-        },
+        onAction: () => { updateBlocks(prev); setLastAIMessage(null) },
       })
     } catch (err) {
       setVoiceError(friendlyError(err))
@@ -92,61 +87,39 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
     }
   }, [blocks, stopListening, updateBlocks])
 
-  const toggleDone = useCallback((block) => {
-    editBlock(block.id, { done: !block.done })
-  }, [editBlock])
-
-  const openAddBlock = useCallback(() => {
-    setEditorMode('add')
-    setEditingBlock(null)
-    setEditorOpen(true)
-  }, [])
-
-  const openEditBlock = useCallback((block) => {
-    setEditorMode('edit')
-    setEditingBlock(block)
-    setEditorOpen(true)
-  }, [])
-
-  const saveBlock = useCallback((block) => {
-    if (editorMode === 'edit') editBlock(block.id, block)
-    else addBlock(block)
-    setEditorOpen(false)
-  }, [editorMode, editBlock, addBlock])
-
-  const removeBlock = useCallback((id) => {
-    deleteBlock(id)
-    setEditorOpen(false)
-  }, [deleteBlock])
+  const toggleDone    = useCallback((block) => editBlock(block.id, { done: !block.done }), [editBlock])
+  const openAddBlock  = useCallback(() => { setEditorMode('add'); setEditingBlock(null); setEditorOpen(true) }, [])
+  const openEditBlock = useCallback((block) => { setEditorMode('edit'); setEditingBlock(block); setEditorOpen(true) }, [])
+  const saveBlock     = useCallback((block) => { if (editorMode === 'edit') editBlock(block.id, block); else addBlock(block); setEditorOpen(false) }, [editorMode, editBlock, addBlock])
+  const removeBlock   = useCallback((id) => { deleteBlock(id); setEditorOpen(false) }, [deleteBlock])
 
   return (
-    <div className="min-h-screen relative" style={{ background: '#020617', color: '#f8fafc', fontFamily: 'Geist, Inter, system-ui, sans-serif' }}>
+    <div className="min-h-screen relative" style={{ background: CLR.bgDark, color: '#f8fafc', fontFamily: 'Geist, Inter, system-ui, sans-serif' }}>
       {/* ambient atmosphere */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(16,185,129,0.08), transparent 60%)' }} />
+          style={{ background: 'radial-gradient(circle,rgba(16,185,129,0.08),transparent 60%)' }} />
         <div className="absolute top-[40%] -left-40 w-[500px] h-[500px] rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(52,211,153,0.06), transparent 60%)' }} />
+          style={{ background: 'radial-gradient(circle,rgba(52,211,153,0.06),transparent 60%)' }} />
       </div>
 
       <div className="relative">
         <TopBar userName={userName} synced={synced} syncing={syncing} onNameChange={onNameChange} onReset={onReset} />
 
         <main className="px-4 sm:px-8 py-5 sm:py-8 max-w-[1280px] mx-auto">
-          {/* mobile greeting — compact */}
+          {/* mobile greeting */}
           <div className="md:hidden mb-4">
             <h1 className="text-[18px] font-medium tracking-tight text-slate-200">
               Hello, <span className="text-slate-50">{userName}</span>
             </h1>
           </div>
 
-          {/* mobile metrics strip — above timeline */}
+          {/* mobile metrics strip */}
           <div className="lg:hidden mb-5">
             <MetricsSidebar metrics={metrics} insight={insight} />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 lg:gap-8">
-            {/* timeline */}
             <section>
               <div className="flex items-center justify-between mb-5">
                 <div className="min-w-0">
@@ -160,11 +133,7 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
                   onClick={openAddBlock}
                   aria-label="Add block"
                   className="shrink-0 inline-flex items-center gap-2 rounded-xl text-[13px] font-medium text-slate-100 transition-all hover:brightness-110 active:scale-95"
-                  style={{
-                    background: 'linear-gradient(135deg,#10b981,#34d399)',
-                    boxShadow: '0 8px 24px rgba(16,185,129,0.25), inset 0 1px 0 rgba(255,255,255,0.18)',
-                    padding: '10px 12px',
-                  }}
+                  style={{ background: GRAD.primary, boxShadow: SHADOW.btnSm, padding: '10px 12px' }}
                 >
                   <Plus size={16} strokeWidth={2.4} />
                   <span className="hidden sm:inline">Add block</span>
@@ -176,10 +145,7 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
                 <div className="mb-5 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(30,41,59,0.7)' }}>
                   <div
                     className="h-full rounded-full transition-all duration-500"
-                    style={{
-                      width: `${(doneCount / blocks.length) * 100}%`,
-                      background: 'linear-gradient(90deg,#10b981,#34d399)',
-                    }}
+                    style={{ width: `${(doneCount / blocks.length) * 100}%`, background: GRAD.progress }}
                   />
                 </div>
               )}
@@ -195,7 +161,6 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
               />
             </section>
 
-            {/* sidebar — desktop only */}
             <div className="hidden lg:block">
               <MetricsSidebar metrics={metrics} insight={insight} />
             </div>
@@ -204,21 +169,23 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
           <div style={{ height: 'calc(11rem + env(safe-area-inset-bottom))' }} />
         </main>
 
-        {/* docked mic — hides while the voice panel is open */}
+        {/* docked mic */}
         {!modalOpen && (
           <div
             className="fixed left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-3"
             style={{ bottom: 'calc(2rem + env(safe-area-inset-bottom))' }}
           >
             <MicButton recording={recording} onClick={openVoice} />
-            <div className="px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.08em]"
-              style={{ background: 'rgba(15,23,42,0.7)', color: '#94a3b8', border: '1px solid rgba(30,41,59,0.6)', backdropFilter: 'blur(8px)' }}>
+            <div
+              className="px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.08em]"
+              style={{ background: CLR.bgPanelMd, color: '#94a3b8', border: BORDER.slateDark, ...BLUR.sm }}
+            >
               tap to speak
             </div>
           </div>
         )}
 
-        {/* type command button — desktop only */}
+        {/* type command — desktop only */}
         {!modalOpen && (
           <div
             className="fixed right-6 z-30 hidden md:flex flex-col gap-2 items-end"
@@ -235,28 +202,15 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
         )}
 
         <VoiceModal
-          open={modalOpen}
-          onClose={closeVoice}
-          onCommit={commitVoice}
-          transcript={transcript}
-          isListening={isListening}
-          isSupported={isSupported}
-          submitting={voiceSubmitting}
-          error={voiceError}
-          startListening={startListening}
-          stopListening={stopListening}
+          open={modalOpen} onClose={closeVoice} onCommit={commitVoice}
+          transcript={transcript} isListening={isListening} isSupported={isSupported}
+          submitting={voiceSubmitting} error={voiceError}
+          startListening={startListening} stopListening={stopListening}
         />
-
         <BlockEditor
-          open={editorOpen}
-          mode={editorMode}
-          block={editingBlock}
-          blocks={blocks}
-          onClose={() => setEditorOpen(false)}
-          onSave={saveBlock}
-          onDelete={removeBlock}
+          open={editorOpen} mode={editorMode} block={editingBlock} blocks={blocks}
+          onClose={() => setEditorOpen(false)} onSave={saveBlock} onDelete={removeBlock}
         />
-
         <Toast toast={toast} onDismiss={() => setToast(null)} />
       </div>
     </div>

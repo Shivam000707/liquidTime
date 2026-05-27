@@ -1,4 +1,5 @@
 import { Mic } from 'lucide-react'
+import { GRAD, SHADOW, BORDER, CLR } from '../styles/tokens'
 
 function MicButton({ recording, onClick }) {
   return (
@@ -11,29 +12,19 @@ function MicButton({ recording, onClick }) {
         height: 72,
         borderRadius: 9999,
         ...(recording
-          ? {
-              background: 'linear-gradient(135deg, #10b981, #34d399)',
-              color: '#fff',
-              border: 'none',
-              boxShadow: '0 0 0 1px rgba(16,185,129,0.40), 0 0 32px rgba(16,185,129,0.55), 0 0 64px rgba(52,211,153,0.4)',
-            }
-          : {
-              background: '#0f172a',
-              color: '#f1f5f9',
-              border: '1px solid rgba(51,65,85,0.7)',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.4), 0 0 24px rgba(16,185,129,0.15), inset 0 1px 0 rgba(255,255,255,0.06)',
-            }),
+          ? { background: GRAD.primary, color: '#fff', border: 'none', boxShadow: SHADOW.micActive }
+          : { background: '#0f172a', color: '#f1f5f9', border: BORDER.slate70, boxShadow: SHADOW.micIdle }),
       }}
     >
       {recording && (
         <>
           <span
             className="absolute rounded-full pointer-events-none"
-            style={{ inset: -10, border: '1.5px solid rgba(16,185,129,0.45)', animation: 'lt-pulse 1.6s cubic-bezier(0.22,1,0.36,1) infinite' }}
+            style={{ inset: -10, border: `1.5px solid ${CLR.emeraldBorder45}`, animation: 'lt-pulse 1.6s cubic-bezier(0.22,1,0.36,1) infinite' }}
           />
           <span
             className="absolute rounded-full pointer-events-none"
-            style={{ inset: -20, border: '1px solid rgba(52,211,153,0.35)', animation: 'lt-pulse 1.6s cubic-bezier(0.22,1,0.36,1) 0.35s infinite' }}
+            style={{ inset: -20, border: `1px solid ${CLR.emeraldBorder35}`, animation: 'lt-pulse 1.6s cubic-bezier(0.22,1,0.36,1) 0.35s infinite' }}
           />
         </>
       )}

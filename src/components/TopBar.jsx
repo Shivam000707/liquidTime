@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Droplet, Loader2, Pencil, LogOut, Check, X } from 'lucide-react'
+import { GRAD, SHADOW, BORDER, BLUR, CLR } from '../styles/tokens'
 
 function useNow(intervalMs = 15_000) {
   const [now, setNow] = useState(() => new Date())
@@ -28,8 +29,10 @@ function greeting(d) {
 function SyncPill({ synced, syncing }) {
   if (syncing) {
     return (
-      <span className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[12px] font-medium backdrop-blur-md"
-        style={{ background: 'linear-gradient(135deg,rgba(16,185,129,0.12),rgba(52,211,153,0.12))', color: '#a7f3d0', border: '1px solid rgba(16,185,129,0.35)' }}>
+      <span
+        className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[12px] font-medium backdrop-blur-md"
+        style={{ background: GRAD.syncPill, color: '#a7f3d0', border: BORDER.emerald35 }}
+      >
         <Loader2 size={12} strokeWidth={2} className="animate-spin" />
         AI · reflowing
       </span>
@@ -55,11 +58,10 @@ function SyncPill({ synced, syncing }) {
 }
 
 const MENU_STYLE = {
-  background: 'linear-gradient(180deg, rgba(15,23,42,0.98), rgba(2,6,23,0.98))',
-  border: '1px solid rgba(16,185,129,0.25)',
-  boxShadow: '0 16px 48px rgba(0,0,0,0.7), 0 0 24px rgba(16,185,129,0.08), inset 0 1px 0 rgba(255,255,255,0.06)',
-  backdropFilter: 'blur(24px)',
-  WebkitBackdropFilter: 'blur(24px)',
+  background: GRAD.modal,
+  border: BORDER.emerald25,
+  boxShadow: SHADOW.menu,
+  ...BLUR.lg,
 }
 
 function TopBar({ userName, synced, syncing, onNameChange, onReset }) {
@@ -70,7 +72,6 @@ function TopBar({ userName, synced, syncing, onNameChange, onReset }) {
   const menuRef = useRef(null)
   const nameInputRef = useRef(null)
 
-  // Close on outside click
   useEffect(() => {
     if (!open) return
     const handler = (e) => {
@@ -80,16 +81,8 @@ function TopBar({ userName, synced, syncing, onNameChange, onReset }) {
     return () => document.removeEventListener('mousedown', handler)
   }, [open])
 
-  const openMenu = () => {
-    setNameInput(userName)
-    setStep('main')
-    setOpen(true)
-  }
-
-  const closeMenu = () => {
-    setOpen(false)
-    setStep('main')
-  }
+  const openMenu = () => { setNameInput(userName); setStep('main'); setOpen(true) }
+  const closeMenu = () => { setOpen(false); setStep('main') }
 
   const goEditName = () => {
     setStep('editName')
@@ -102,10 +95,7 @@ function TopBar({ userName, synced, syncing, onNameChange, onReset }) {
     closeMenu()
   }
 
-  const confirmReset = () => {
-    onReset()
-    closeMenu()
-  }
+  const confirmReset = () => { onReset(); closeMenu() }
 
   return (
     <header className="flex items-center justify-between gap-4 sm:gap-6 px-4 sm:px-8 py-3.5 sm:py-5 border-b border-slate-800/50">
@@ -113,7 +103,7 @@ function TopBar({ userName, synced, syncing, onNameChange, onReset }) {
       <div className="flex items-center gap-3 min-w-0">
         <div className="relative w-9 h-9 rounded-xl grid place-items-center bg-slate-900 border border-slate-800/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
           <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-emerald-500/15 to-emerald-400/15" />
-          <Droplet size={18} strokeWidth={1.6} className="relative" style={{ color: '#6ee7b7' }} />
+          <Droplet size={18} strokeWidth={1.6} className="relative" style={{ color: CLR.emeraldLight }} />
         </div>
         <div className="hidden sm:block">
           <div className="text-[15px] font-semibold tracking-tight text-slate-100">LiquidTime</div>
@@ -135,18 +125,16 @@ function TopBar({ userName, synced, syncing, onNameChange, onReset }) {
       <div className="flex items-center gap-2 shrink-0">
         <SyncPill synced={synced} syncing={syncing} />
 
-        {/* avatar — opens account menu */}
         <div className="relative" ref={menuRef}>
           <button
             onClick={open ? closeMenu : openMenu}
             aria-label="Account menu"
-            className="w-9 h-9 rounded-full grid place-items-center text-[12px] font-semibold text-slate-950 shadow-[0_0_24px_rgba(16,185,129,0.25)] transition-transform hover:scale-105 active:scale-95"
-            style={{ background: 'linear-gradient(135deg,#10b981,#34d399)' }}
+            className="w-9 h-9 rounded-full grid place-items-center text-[12px] font-semibold text-slate-950 transition-transform hover:scale-105 active:scale-95"
+            style={{ background: GRAD.primary, boxShadow: SHADOW.avatar }}
           >
             {userName?.[0]?.toUpperCase() ?? '?'}
           </button>
 
-          {/* dropdown */}
           {open && (
             <div
               className="absolute right-0 top-full mt-2 w-[220px] rounded-2xl p-3 z-50"
@@ -189,7 +177,7 @@ function TopBar({ userName, synced, syncing, onNameChange, onReset }) {
                     }}
                     maxLength={40}
                     className="w-full rounded-xl px-3 py-2 text-[13px] text-slate-100 outline-none"
-                    style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(16,185,129,0.30)' }}
+                    style={{ background: CLR.bgPanelSm, border: BORDER.emerald30 }}
                   />
                   <div className="mt-2 flex gap-1.5">
                     <button
@@ -202,7 +190,7 @@ function TopBar({ userName, synced, syncing, onNameChange, onReset }) {
                       onClick={saveName}
                       disabled={!nameInput.trim()}
                       className="flex-1 py-1.5 rounded-xl text-[12px] font-medium text-white disabled:opacity-40 disabled:cursor-not-allowed inline-flex items-center justify-center gap-1"
-                      style={{ background: 'linear-gradient(135deg,#10b981,#34d399)' }}
+                      style={{ background: GRAD.primary }}
                     >
                       <Check size={12} strokeWidth={2.5} /> Save
                     </button>
@@ -229,7 +217,7 @@ function TopBar({ userName, synced, syncing, onNameChange, onReset }) {
                     <button
                       onClick={confirmReset}
                       className="flex-1 py-1.5 rounded-xl text-[12px] font-medium text-white inline-flex items-center justify-center gap-1"
-                      style={{ background: 'linear-gradient(135deg,#dc2626,#9f1239)' }}
+                      style={{ background: GRAD.destructive }}
                     >
                       <LogOut size={12} /> Yes, reset
                     </button>
