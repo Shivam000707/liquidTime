@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { Sparkles, Mic2, Shuffle, Clock, Shield } from "lucide-react";
+import { Sparkles, Mic2, Clock, Shield } from "lucide-react";
 import LiquidBackground from "./LiquidBackground";
 
 // ── icons ────────────────────────────────────────────────────────────────────
@@ -380,29 +380,7 @@ function Navbar({ onEnter }) {
         </div>
       </div>
 
-      {/* Right — mobile only */}
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <button
-          onClick={onEnter}
-          className="liquid-glass-mint md:hidden"
-          style={{
-            borderRadius: 9999,
-            padding: "10px 16px",
-            fontSize: 13,
-            fontFamily: BARLOW,
-            fontWeight: 500,
-            color: "#fff",
-            border: "none",
-            cursor: "pointer",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 6,
-            background: "transparent",
-          }}
-        >
-          Start <ArrowUpRight size={13} />
-        </button>
-      </div>
+      <div />
     </nav>
   );
 }
@@ -476,12 +454,6 @@ const CAPABILITIES = [
     tags: ["Voice-first", "Real-time", "Hands-free"],
     title: "Voice Control",
     body: '"Move my gym to 7pm and push dinner back." Your entire day reflowed in one sentence.',
-  },
-  {
-    LucideIcon: Shuffle,
-    tags: ["Conflict-free", "Automatic", "Intelligent"],
-    title: "Smart Reflow",
-    body: "Fixed anchors stay locked. Floating blocks rearrange around them — no overlaps, no manual dragging.",
   },
 ];
 

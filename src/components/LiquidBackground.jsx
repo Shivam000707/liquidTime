@@ -21,8 +21,8 @@ function AnimatedSphere({ isMobile }) {
 
   const radius = isMobile ? 1.35 : 2.0
   const segments = isMobile ? 64 : 128
-  const posX = isMobile ? 1.2 : 0
-  const posY = isMobile ? 1.0 : 0
+  const posX = 0
+  const posY = 0
 
   useEffect(() => {
     const handleMouseMove = (e) => {
