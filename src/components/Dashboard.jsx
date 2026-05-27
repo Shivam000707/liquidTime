@@ -124,9 +124,9 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
       {/* ambient atmosphere */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(249,115,22,0.08), transparent 60%)' }} />
+          style={{ background: 'radial-gradient(circle, rgba(16,185,129,0.08), transparent 60%)' }} />
         <div className="absolute top-[40%] -left-40 w-[500px] h-[500px] rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(236,72,153,0.06), transparent 60%)' }} />
+          style={{ background: 'radial-gradient(circle, rgba(52,211,153,0.06), transparent 60%)' }} />
       </div>
 
       <div className="relative">
@@ -161,8 +161,8 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
                   aria-label="Add block"
                   className="shrink-0 inline-flex items-center gap-2 rounded-xl text-[13px] font-medium text-slate-100 transition-all hover:brightness-110 active:scale-95"
                   style={{
-                    background: 'linear-gradient(135deg,#f97316,#ec4899)',
-                    boxShadow: '0 8px 24px rgba(249,115,22,0.25), inset 0 1px 0 rgba(255,255,255,0.18)',
+                    background: 'linear-gradient(135deg,#10b981,#34d399)',
+                    boxShadow: '0 8px 24px rgba(16,185,129,0.25), inset 0 1px 0 rgba(255,255,255,0.18)',
                     padding: '10px 12px',
                   }}
                 >
@@ -178,7 +178,7 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
                     className="h-full rounded-full transition-all duration-500"
                     style={{
                       width: `${(doneCount / blocks.length) * 100}%`,
-                      background: 'linear-gradient(90deg,#f97316,#ec4899)',
+                      background: 'linear-gradient(90deg,#10b981,#34d399)',
                     }}
                   />
                 </div>

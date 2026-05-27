@@ -19,7 +19,7 @@ function TaskItem({ task, onToggle, onDelete }) {
       >
         <span className="w-4 h-4 rounded grid place-items-center"
           style={task.done
-            ? { background: 'linear-gradient(135deg,#f97316,#ec4899)', border: '1px solid transparent' }
+            ? { background: 'linear-gradient(135deg,#10b981,#34d399)', border: '1px solid transparent' }
             : { background: 'transparent', border: '1.5px solid rgba(100,116,139,0.5)' }}>
           {task.done && <Check size={9} strokeWidth={3} style={{ color: '#fff' }} />}
         </span>
@@ -51,7 +51,7 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
   const doneTasks = tasks.filter((t) => t.done).length
 
   const baseGlow = block.changed
-    ? '0 0 0 1px rgba(249,115,22,0.35), 0 0 32px rgba(249,115,22,0.18)'
+    ? '0 0 0 1px rgba(16,185,129,0.35), 0 0 32px rgba(16,185,129,0.18)'
     : '0 8px 24px rgba(0,0,0,0.3)'
 
   const openAddTask = (e) => {
@@ -83,8 +83,8 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
       ].join(' ')}
       style={{
         boxShadow: `${baseGlow}, inset 0 1px 0 rgba(255,255,255,0.05)`,
-        border: '1px solid rgba(249,115,22,0.28)',
-        backgroundImage: 'linear-gradient(180deg, rgba(249,115,22,0.03), transparent 80%)',
+        border: '1px solid rgba(16,185,129,0.28)',
+        backgroundImage: 'linear-gradient(180deg, rgba(16,185,129,0.03), transparent 80%)',
       }}
     >
       {/* main row */}
@@ -100,7 +100,7 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
           >
             <span className="w-6 h-6 rounded-full grid place-items-center transition-all"
               style={isDone
-                ? { background: 'linear-gradient(135deg,#f97316,#ec4899)', border: '1px solid transparent' }
+                ? { background: 'linear-gradient(135deg,#10b981,#34d399)', border: '1px solid transparent' }
                 : { background: 'transparent', border: '1.5px solid rgba(100,116,139,0.55)' }}>
               {isDone && <Check size={13} strokeWidth={3} style={{ color: '#fff' }} />}
             </span>
@@ -109,8 +109,8 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
 
         {/* category glyph — smaller on mobile */}
         <div
-          className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl grid place-items-center shrink-0 self-start sm:self-center text-orange-200"
-          style={{ background: 'rgba(249,115,22,0.15)' }}
+          className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl grid place-items-center shrink-0 self-start sm:self-center text-emerald-200"
+          style={{ background: 'rgba(16,185,129,0.15)' }}
         >
           <CategoryIcon category={block.category} size={16} strokeWidth={1.5} />
         </div>
@@ -121,7 +121,7 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
             <div className={['text-[15px] sm:text-[16px] font-medium leading-snug flex-1 min-w-0 break-words', isDone ? 'line-through text-slate-400' : 'text-slate-50'].join(' ')}>{block.title}</div>
             {block.changed && (
               <span className="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider"
-                style={{ background: 'linear-gradient(135deg,rgba(249,115,22,0.18),rgba(236,72,153,0.18))', color: '#fb923c', border: '1px solid rgba(249,115,22,0.35)' }}>
+                style={{ background: 'linear-gradient(135deg,rgba(16,185,129,0.18),rgba(52,211,153,0.18))', color: '#6ee7b7', border: '1px solid rgba(16,185,129,0.35)' }}>
                 <Sparkles size={10} strokeWidth={2} />
                 moved
               </span>

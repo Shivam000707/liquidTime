@@ -15,8 +15,8 @@ function MiniWaveform() {
         style={{
           width: 2,
           height: `${baseH}%`,
-          background: 'linear-gradient(180deg, #f97316, #ec4899)',
-          boxShadow: '0 0 5px rgba(6,182,212,0.35)',
+          background: 'linear-gradient(180deg, #10b981, #34d399)',
+          boxShadow: '0 0 5px rgba(16,185,129,0.35)',
           animation: `lt-wave 1s ease-in-out ${delay}s infinite`,
         }}
       />
@@ -88,9 +88,9 @@ function VoiceModal({
         className="rounded-t-[28px] sm:rounded-[20px] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] sm:pb-5"
         style={{
           background: 'linear-gradient(180deg, rgba(15,23,42,0.98), rgba(2,6,23,0.98))',
-          border: '1px solid rgba(249,115,22,0.32)',
+          border: '1px solid rgba(16,185,129,0.32)',
           borderBottom: 'none',
-          boxShadow: '0 -8px 40px rgba(0,0,0,0.5), 0 0 40px rgba(249,115,22,0.14), inset 0 1px 0 rgba(255,255,255,0.07)',
+          boxShadow: '0 -8px 40px rgba(0,0,0,0.5), 0 0 40px rgba(16,185,129,0.14), inset 0 1px 0 rgba(255,255,255,0.07)',
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
         }}
@@ -105,8 +105,8 @@ function VoiceModal({
             {isSupported && isListening ? (
               <>
                 <span className="relative w-1.5 h-1.5 shrink-0">
-                  <span className="absolute inset-0 rounded-full bg-cyan-400" />
-                  <span className="absolute inset-0 rounded-full bg-cyan-400 animate-ping" />
+                  <span className="absolute inset-0 rounded-full bg-emerald-400" />
+                  <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping" />
                 </span>
                 <MiniWaveform />
               </>
@@ -128,7 +128,7 @@ function VoiceModal({
                 title={isListening ? 'Pause mic' : 'Resume mic'}
                 className="w-7 h-7 rounded-lg grid place-items-center transition-colors disabled:opacity-40"
                 style={isListening
-                  ? { background: 'rgba(249,115,22,0.18)', color: '#fb923c' }
+                  ? { background: 'rgba(16,185,129,0.18)', color: '#6ee7b7' }
                   : { background: 'rgba(30,41,59,0.6)', color: '#64748b' }}
               >
                 {isListening ? <Mic size={13} /> : <MicOff size={13} />}
@@ -161,7 +161,7 @@ function VoiceModal({
           className="w-full rounded-xl px-3 py-2.5 text-[14px] text-slate-100 placeholder-slate-500 resize-none outline-none leading-relaxed disabled:opacity-60"
           style={{
             background: 'rgba(15,23,42,0.7)',
-            border: `1px solid ${isListening ? 'rgba(249,115,22,0.45)' : 'rgba(249,115,22,0.20)'}`,
+            border: `1px solid ${isListening ? 'rgba(16,185,129,0.45)' : 'rgba(16,185,129,0.20)'}`,
             minHeight: 72,
             transition: 'border-color 0.2s',
           }}
@@ -194,7 +194,7 @@ function VoiceModal({
             onClick={handleCommit}
             disabled={!text.trim() || submitting}
             className="flex-1 py-2 rounded-xl text-[13px] font-medium text-white transition-all disabled:opacity-35 disabled:cursor-not-allowed inline-flex items-center justify-center gap-1.5"
-            style={{ background: 'linear-gradient(135deg,#f97316,#ec4899)', boxShadow: '0 6px 20px rgba(249,115,22,0.30), inset 0 1px 0 rgba(255,255,255,0.18)' }}
+            style={{ background: 'linear-gradient(135deg,#10b981,#34d399)', boxShadow: '0 6px 20px rgba(16,185,129,0.30), inset 0 1px 0 rgba(255,255,255,0.18)' }}
           >
             {submitting
               ? <><Loader2 size={14} className="animate-spin" /> Reflowing…</>

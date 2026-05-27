@@ -38,7 +38,7 @@ function Timeline({ blocks, reflowing, onEditBlock, onToggleDone, onAddTask, onT
     return (
       <div
         className="rounded-2xl px-6 py-12 text-center"
-        style={{ border: '1.5px dashed rgba(249,115,22,0.35)', background: 'rgba(15,23,42,0.4)' }}
+        style={{ border: '1.5px dashed rgba(16,185,129,0.35)', background: 'rgba(15,23,42,0.4)' }}
       >
         <p className="text-[15px] font-medium text-slate-200">No blocks yet</p>
         <p className="text-[13px] text-slate-400 mt-1">

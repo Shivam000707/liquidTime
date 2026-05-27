@@ -29,7 +29,7 @@ function SyncPill({ synced, syncing }) {
   if (syncing) {
     return (
       <span className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[12px] font-medium backdrop-blur-md"
-        style={{ background: 'linear-gradient(135deg,rgba(6,182,212,0.12),rgba(139,92,246,0.12))', color: '#a5f3fc', border: '1px solid rgba(6,182,212,0.35)' }}>
+        style={{ background: 'linear-gradient(135deg,rgba(16,185,129,0.12),rgba(52,211,153,0.12))', color: '#a7f3d0', border: '1px solid rgba(16,185,129,0.35)' }}>
         <Loader2 size={12} strokeWidth={2} className="animate-spin" />
         AI · reflowing
       </span>
@@ -56,8 +56,8 @@ function SyncPill({ synced, syncing }) {
 
 const MENU_STYLE = {
   background: 'linear-gradient(180deg, rgba(15,23,42,0.98), rgba(2,6,23,0.98))',
-  border: '1px solid rgba(249,115,22,0.25)',
-  boxShadow: '0 16px 48px rgba(0,0,0,0.7), 0 0 24px rgba(249,115,22,0.08), inset 0 1px 0 rgba(255,255,255,0.06)',
+  border: '1px solid rgba(16,185,129,0.25)',
+  boxShadow: '0 16px 48px rgba(0,0,0,0.7), 0 0 24px rgba(16,185,129,0.08), inset 0 1px 0 rgba(255,255,255,0.06)',
   backdropFilter: 'blur(24px)',
   WebkitBackdropFilter: 'blur(24px)',
 }
@@ -112,8 +112,8 @@ function TopBar({ userName, synced, syncing, onNameChange, onReset }) {
       {/* logo */}
       <div className="flex items-center gap-3 min-w-0">
         <div className="relative w-9 h-9 rounded-xl grid place-items-center bg-slate-900 border border-slate-800/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
-          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-cyan-500/15 to-violet-500/15" />
-          <Droplet size={18} strokeWidth={1.6} className="relative" style={{ color: '#67e8f9' }} />
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-emerald-500/15 to-emerald-400/15" />
+          <Droplet size={18} strokeWidth={1.6} className="relative" style={{ color: '#6ee7b7' }} />
         </div>
         <div className="hidden sm:block">
           <div className="text-[15px] font-semibold tracking-tight text-slate-100">LiquidTime</div>
@@ -140,8 +140,8 @@ function TopBar({ userName, synced, syncing, onNameChange, onReset }) {
           <button
             onClick={open ? closeMenu : openMenu}
             aria-label="Account menu"
-            className="w-9 h-9 rounded-full grid place-items-center text-[12px] font-semibold text-slate-950 shadow-[0_0_24px_rgba(6,182,212,0.25)] transition-transform hover:scale-105 active:scale-95"
-            style={{ background: 'linear-gradient(135deg,#f97316,#ec4899)' }}
+            className="w-9 h-9 rounded-full grid place-items-center text-[12px] font-semibold text-slate-950 shadow-[0_0_24px_rgba(16,185,129,0.25)] transition-transform hover:scale-105 active:scale-95"
+            style={{ background: 'linear-gradient(135deg,#10b981,#34d399)' }}
           >
             {userName?.[0]?.toUpperCase() ?? '?'}
           </button>
@@ -189,7 +189,7 @@ function TopBar({ userName, synced, syncing, onNameChange, onReset }) {
                     }}
                     maxLength={40}
                     className="w-full rounded-xl px-3 py-2 text-[13px] text-slate-100 outline-none"
-                    style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(249,115,22,0.30)' }}
+                    style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(16,185,129,0.30)' }}
                   />
                   <div className="mt-2 flex gap-1.5">
                     <button
@@ -202,7 +202,7 @@ function TopBar({ userName, synced, syncing, onNameChange, onReset }) {
                       onClick={saveName}
                       disabled={!nameInput.trim()}
                       className="flex-1 py-1.5 rounded-xl text-[12px] font-medium text-white disabled:opacity-40 disabled:cursor-not-allowed inline-flex items-center justify-center gap-1"
-                      style={{ background: 'linear-gradient(135deg,#f97316,#ec4899)' }}
+                      style={{ background: 'linear-gradient(135deg,#10b981,#34d399)' }}
                     >
                       <Check size={12} strokeWidth={2.5} /> Save
                     </button>

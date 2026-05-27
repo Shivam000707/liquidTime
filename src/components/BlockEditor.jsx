@@ -79,9 +79,9 @@ function BlockEditor({ open, mode, block, blocks, onClose, onSave, onDelete }) {
         className="relative w-full sm:max-w-[460px] rounded-t-[28px] sm:rounded-[28px] p-6 sm:p-8 overflow-y-auto scroll-momentum"
         style={{
           background: 'linear-gradient(180deg, rgba(15,23,42,0.97), rgba(2,6,23,0.97))',
-          border: '1px solid rgba(249,115,22,0.30)',
+          border: '1px solid rgba(16,185,129,0.30)',
           borderBottom: 'none',
-          boxShadow: '0 -8px 60px rgba(0,0,0,0.6), 0 0 64px rgba(249,115,22,0.14), inset 0 1px 0 rgba(255,255,255,0.07)',
+          boxShadow: '0 -8px 60px rgba(0,0,0,0.6), 0 0 64px rgba(16,185,129,0.14), inset 0 1px 0 rgba(255,255,255,0.07)',
           maxHeight: '92dvh',
           paddingBottom: 'calc(1.5rem + env(safe-area-inset-bottom))',
           animation: 'lt-slide-up 300ms cubic-bezier(0.22,1,0.36,1) both',
@@ -111,7 +111,7 @@ function BlockEditor({ open, mode, block, blocks, onClose, onSave, onDelete }) {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="e.g. Morning lecture · OS"
           className="w-full rounded-xl px-3.5 py-2.5 text-[14px] text-slate-100 placeholder-slate-500 outline-none mb-4"
-          style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(249,115,22,0.25)' }}
+          style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(16,185,129,0.25)' }}
         />
 
         {/* category pills */}
@@ -123,7 +123,7 @@ function BlockEditor({ open, mode, block, blocks, onClose, onSave, onDelete }) {
               onClick={() => setCategory(c)}
               className="flex-1 py-1.5 rounded-lg text-[12px] font-medium capitalize transition-all"
               style={category === c
-                ? { background: 'rgba(249,115,22,0.20)', color: '#fb923c', border: '1px solid rgba(249,115,22,0.45)' }
+                ? { background: 'rgba(16,185,129,0.20)', color: '#6ee7b7', border: '1px solid rgba(16,185,129,0.45)' }
                 : { background: 'rgba(15,23,42,0.8)', color: '#94a3b8', border: '1px solid rgba(30,41,59,0.8)' }}
             >
               {c}
@@ -140,7 +140,7 @@ function BlockEditor({ open, mode, block, blocks, onClose, onSave, onDelete }) {
               value={start}
               onChange={(e) => setStart(e.target.value)}
               className="w-full rounded-xl px-3 py-2 text-[14px] text-slate-100 outline-none"
-              style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(249,115,22,0.25)' }}
+              style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(16,185,129,0.25)' }}
             />
           </div>
           <div className="flex-1">
@@ -150,7 +150,7 @@ function BlockEditor({ open, mode, block, blocks, onClose, onSave, onDelete }) {
               value={end}
               onChange={(e) => setEnd(e.target.value)}
               className="w-full rounded-xl px-3 py-2 text-[14px] text-slate-100 outline-none"
-              style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(249,115,22,0.25)' }}
+              style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(16,185,129,0.25)' }}
             />
           </div>
         </div>
@@ -168,7 +168,7 @@ function BlockEditor({ open, mode, block, blocks, onClose, onSave, onDelete }) {
           onChange={(e) => setNote(e.target.value)}
           placeholder="e.g. Block C · Room 204 or between 10 AM – 1 PM"
           className="w-full rounded-xl px-3.5 py-2.5 text-[14px] text-slate-100 placeholder-slate-500 outline-none mb-5"
-          style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(6,182,212,0.25)' }}
+          style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(110,231,183,0.25)' }}
         />
 
         <div className="flex items-center gap-3">
@@ -200,7 +200,7 @@ function BlockEditor({ open, mode, block, blocks, onClose, onSave, onDelete }) {
             onClick={handleSave}
             disabled={!canSave}
             className="px-5 py-2.5 rounded-xl text-[14px] font-medium text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-            style={{ background: 'linear-gradient(135deg,#f97316,#ec4899)', boxShadow: '0 8px 24px rgba(249,115,22,0.35), inset 0 1px 0 rgba(255,255,255,0.18)' }}
+            style={{ background: 'linear-gradient(135deg,#10b981,#34d399)', boxShadow: '0 8px 24px rgba(16,185,129,0.35), inset 0 1px 0 rgba(255,255,255,0.18)' }}
           >
             {mode === 'edit' ? 'Save' : 'Add block'}
           </button>

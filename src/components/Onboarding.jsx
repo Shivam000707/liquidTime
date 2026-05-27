@@ -13,17 +13,17 @@ function todayStr() {
 
 const PANEL = {
   background: 'linear-gradient(180deg, rgba(15,23,42,0.92), rgba(2,6,23,0.92))',
-  border: '1px solid rgba(249,115,22,0.30)',
-  boxShadow: '0 24px 80px rgba(0,0,0,0.6), 0 0 64px rgba(249,115,22,0.16), inset 0 1px 0 rgba(255,255,255,0.07)',
+  border: '1px solid rgba(16,185,129,0.30)',
+  boxShadow: '0 24px 80px rgba(0,0,0,0.6), 0 0 64px rgba(16,185,129,0.16), inset 0 1px 0 rgba(255,255,255,0.07)',
 }
-const INPUT = { background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(249,115,22,0.25)' }
+const INPUT = { background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(16,185,129,0.25)' }
 
 const EXAMPLES = [
   { label: 'Packed class day', value: 'Lectures 9 to 11, lab 2 to 4:30, gym at 6, dinner at 8, study before bed' },
   { label: 'Light day', value: 'Classes till noon, free afternoon, coding session 3 to 6, dinner at 8, sleep by 11' },
   { label: 'Gym + project', value: 'Morning gym at 7, lectures 10 to 1, lunch, project work in the afternoon, evening walk' },
 ]
-const CTA = { background: 'linear-gradient(135deg,#f97316,#ec4899)', boxShadow: '0 12px 36px rgba(249,115,22,0.30), inset 0 1px 0 rgba(255,255,255,0.18)' }
+const CTA = { background: 'linear-gradient(135deg,#10b981,#34d399)', boxShadow: '0 12px 36px rgba(16,185,129,0.30), inset 0 1px 0 rgba(255,255,255,0.18)' }
 
 function Onboarding({ onComplete }) {
   const [step, setStep]               = useState('name')   // name | describe | review
@@ -74,9 +74,9 @@ function Onboarding({ onComplete }) {
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(249,115,22,0.09), transparent 60%)' }} />
+          style={{ background: 'radial-gradient(circle, rgba(16,185,129,0.09), transparent 60%)' }} />
         <div className="absolute top-[40%] -left-40 w-[500px] h-[500px] rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(236,72,153,0.07), transparent 60%)' }} />
+          style={{ background: 'radial-gradient(circle, rgba(52,211,153,0.07), transparent 60%)' }} />
       </div>
 
       <div
@@ -137,7 +137,7 @@ function Onboarding({ onComplete }) {
                     key={ex.label}
                     onClick={() => setDescription(ex.value)}
                     className="text-[12px] font-medium text-slate-300 px-3 py-1.5 rounded-lg transition-colors hover:text-slate-50 hover:brightness-125"
-                    style={{ background: 'rgba(249,115,22,0.12)', border: '1px solid rgba(249,115,22,0.30)' }}
+                    style={{ background: 'rgba(16,185,129,0.12)', border: '1px solid rgba(16,185,129,0.30)' }}
                   >
                     {ex.label}
                   </button>
@@ -150,7 +150,7 @@ function Onboarding({ onComplete }) {
                 onClick={toggleMic}
                 className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-medium transition-colors"
                 style={isListening
-                  ? { background: 'rgba(6,182,212,0.18)', color: '#67e8f9', border: '1px solid rgba(6,182,212,0.40)' }
+                  ? { background: 'rgba(110,231,183,0.18)', color: '#6ee7b7', border: '1px solid rgba(110,231,183,0.40)' }
                   : { background: 'rgba(15,23,42,0.8)', color: '#94a3b8', border: '1px solid rgba(30,41,59,0.8)' }}
               >
                 {isListening ? <MicOff size={14} /> : <Mic size={14} />}

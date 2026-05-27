@@ -24,15 +24,15 @@ function Toast({ toast, onDismiss }) {
         className="flex items-start gap-3 rounded-2xl px-4 py-3"
         style={{
           background: 'linear-gradient(180deg, rgba(15,23,42,0.97), rgba(2,6,23,0.97))',
-          border: '1px solid rgba(6,182,212,0.32)',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(6,182,212,0.14)',
+          border: '1px solid rgba(16,185,129,0.32)',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(16,185,129,0.14)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
         }}
       >
         <span
           className="inline-flex w-6 h-6 rounded-lg items-center justify-center shrink-0 mt-0.5"
-          style={{ background: 'linear-gradient(135deg,#06b6d4,#8b5cf6)' }}
+          style={{ background: 'linear-gradient(135deg,#10b981,#34d399)' }}
         >
           <Sparkles size={12} strokeWidth={2} style={{ color: '#fff' }} />
         </span>
@@ -44,8 +44,8 @@ function Toast({ toast, onDismiss }) {
         {toast.actionLabel && (
           <button
             onClick={() => { toast.onAction?.(); onDismiss() }}
-            className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium text-cyan-200 transition-colors hover:brightness-125"
-            style={{ background: 'rgba(6,182,212,0.15)', border: '1px solid rgba(6,182,212,0.35)' }}
+            className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium text-emerald-200 transition-colors hover:brightness-125"
+            style={{ background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.35)' }}
           >
             <Undo2 size={13} strokeWidth={2} />
             {toast.actionLabel}

@@ -9,8 +9,8 @@ function MetricTile({ icon, label, value, sub, delta, accent }) {
       style={{boxShadow:'0 8px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)'}}>
       <div className="absolute -right-12 -top-12 w-40 h-40 rounded-full pointer-events-none"
         style={{background: accent === 'violet'
-          ? 'radial-gradient(circle, rgba(139,92,246,0.16), transparent 60%)'
-          : 'radial-gradient(circle, rgba(6,182,212,0.14), transparent 60%)'}} />
+          ? 'radial-gradient(circle, rgba(163,230,53,0.16), transparent 60%)'
+          : 'radial-gradient(circle, rgba(16,185,129,0.14), transparent 60%)'}} />
       <div className="relative">
         <div className="flex items-center gap-2 text-slate-400 mb-3">
           {Icon && <Icon size={14} strokeWidth={1.6} />}
@@ -34,12 +34,12 @@ function MetricTile({ icon, label, value, sub, delta, accent }) {
 function AIInsight({ message }) {
   return (
     <div className="relative overflow-hidden rounded-2xl p-5 border"
-      style={{ background:'linear-gradient(135deg, rgba(6,182,212,0.06), rgba(139,92,246,0.08))', borderColor:'rgba(6,182,212,0.25)', boxShadow:'0 0 32px rgba(6,182,212,0.10), inset 0 1px 0 rgba(255,255,255,0.06)' }}>
+      style={{ background:'linear-gradient(135deg, rgba(16,185,129,0.06), rgba(163,230,53,0.08))', borderColor:'rgba(16,185,129,0.25)', boxShadow:'0 0 32px rgba(16,185,129,0.10), inset 0 1px 0 rgba(255,255,255,0.06)' }}>
       <div className="flex items-center gap-2 mb-2.5">
-        <span className="inline-flex w-6 h-6 rounded-lg items-center justify-center" style={{background:'linear-gradient(135deg,#06b6d4,#8b5cf6)'}}>
+        <span className="inline-flex w-6 h-6 rounded-lg items-center justify-center" style={{background:'linear-gradient(135deg,#10b981,#a3e635)'}}>
           <Sparkles size={12} strokeWidth={2} style={{color:'#fff'}} />
         </span>
-        <span className="text-[11px] uppercase tracking-[0.08em] font-semibold text-cyan-200">AI · insight</span>
+        <span className="text-[11px] uppercase tracking-[0.08em] font-semibold text-emerald-200">AI · insight</span>
       </div>
       <p className="text-[13px] leading-relaxed text-slate-200">{message}</p>
     </div>
@@ -67,8 +67,8 @@ function MetricsSidebar({ metrics, insight }) {
                 }}
               >
                 <div className="w-7 h-7 rounded-lg grid place-items-center shrink-0"
-                  style={{ background: m.accent === 'violet' ? 'rgba(139,92,246,0.15)' : 'rgba(6,182,212,0.12)' }}>
-                  {Icon && <Icon size={13} strokeWidth={1.6} style={{ color: m.accent === 'violet' ? '#a78bfa' : '#67e8f9' }} />}
+                  style={{ background: m.accent === 'violet' ? 'rgba(163,230,53,0.15)' : 'rgba(16,185,129,0.12)' }}>
+                  {Icon && <Icon size={13} strokeWidth={1.6} style={{ color: m.accent === 'violet' ? '#bef264' : '#6ee7b7' }} />}
                 </div>
                 <div>
                   <div className="font-mono text-[14px] font-medium text-slate-50 leading-none" style={{ fontVariantNumeric: 'tabular-nums' }}>{m.value}</div>
