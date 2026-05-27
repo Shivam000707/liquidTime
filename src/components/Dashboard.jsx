@@ -38,11 +38,10 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
   const [editingBlock, setEditingBlock] = useState(null)
 
   const metrics = computeMetrics(blocks)
-  const floatingCount = blocks.filter((b) => b.type === 'floating').length
   const doneCount = blocks.filter((b) => b.done).length
 
   const insight = lastAIMessage
-    || `${metrics.buffer.value} buffer · ${floatingCount} floating blocks ready to reflow.`
+    || `${metrics.buffer.value} buffer · ${blocks.length} blocks ready to reflow.`
 
   const openVoice = useCallback(() => {
     setVoiceError(null)

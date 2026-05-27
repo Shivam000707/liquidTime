@@ -28,9 +28,8 @@ export function nextBlockId(blocks) {
 }
 
 /**
- * Walk blocks sorted by startISO; push any floating block that overlaps the
- * previous block's end forward by its durationMin. Fixed blocks never move.
- * Mirrors the backend resolve_conflicts pass.
+ * Walk blocks sorted by startISO; push any block that overlaps the previous
+ * block's end forward by its durationMin. Mirrors the backend resolve_conflicts pass.
  */
 export function resolveConflicts(blocks) {
   const sorted = [...blocks].sort((a, b) => a.startISO.localeCompare(b.startISO))
@@ -45,7 +44,7 @@ export function resolveConflicts(blocks) {
 
     if (currStart >= prevEnd) {
       result.push(block)
-    } else if (block.type === 'floating') {
+    } else {
       const newStart = prevEnd
       const newEnd = new Date(newStart.getTime() + block.durationMin * 60000)
       const startISO = toLocalISO(newStart)
@@ -56,8 +55,6 @@ export function resolveConflicts(blocks) {
         start: fmtDisplay(startISO), end: fmtDisplay(endISO),
         changed: true,
       })
-    } else {
-      result.push(block)
     }
   }
   return result

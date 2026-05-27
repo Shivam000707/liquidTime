@@ -47,21 +47,21 @@ export function computeMetrics(blocks) {
   if (cursor < sleepMs) freeMs += sleepMs - cursor
   const bufferMin = Math.max(0, Math.round(freeMs / 60000))
 
-  // Bulk window: from gym block start to next fixed block start
+  // Bulk window: from gym block start to next block start
   const gymBlock = sorted.find((b) => b.category === 'gym')
-  let bulkMin = 0
-  let bulkClosesAt = ''
+  let bulkMin
+  let bulkClosesAt
 
   if (gymBlock && gymBlock.startISO) {
     const gymStartMs = new Date(gymBlock.startISO).getTime()
-    const nextFixed = sorted.find(
-      (b) => b.type === 'fixed' && b.startISO && new Date(b.startISO).getTime() > gymStartMs
+    const nextBlock = sorted.find(
+      (b) => b.startISO && new Date(b.startISO).getTime() > gymStartMs && b.id !== gymBlock.id
     )
-    const windowEndMs = nextFixed
-      ? new Date(nextFixed.startISO).getTime()
+    const windowEndMs = nextBlock
+      ? new Date(nextBlock.startISO).getTime()
       : new Date(gymBlock.endISO).getTime() + 2 * 60 * 60000
     bulkMin = Math.max(0, Math.round((windowEndMs - gymStartMs) / 60000))
-    bulkClosesAt = nextFixed ? `closes ${fmtDisplayTime(nextFixed.startISO)}` : 'no hard close'
+    bulkClosesAt = nextBlock ? `closes ${fmtDisplayTime(nextBlock.startISO)}` : 'no hard close'
   } else {
     // Fallback: largest gap between adjacent blocks
     let maxGap = 0

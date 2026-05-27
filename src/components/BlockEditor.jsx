@@ -17,12 +17,10 @@ function hhmm(iso) {
 
 function BlockEditor({ open, mode, block, blocks, onClose, onSave, onDelete }) {
   const [title, setTitle]       = useState('')
-  const [type, setType]         = useState('floating')
   const [category, setCategory] = useState('work')
   const [start, setStart]       = useState('09:00')
   const [end, setEnd]           = useState('10:00')
-  const [location, setLocation] = useState('')
-  const [hint, setHint]         = useState('')
+  const [note, setNote]         = useState('')
   const [confirmDelete, setConfirmDelete] = useState(false)
 
   useEffect(() => {
@@ -30,15 +28,13 @@ function BlockEditor({ open, mode, block, blocks, onClose, onSave, onDelete }) {
     setConfirmDelete(false)
     if (mode === 'edit' && block) {
       setTitle(block.title ?? '')
-      setType(block.type ?? 'floating')
       setCategory(block.category ?? 'work')
       setStart(hhmm(block.startISO))
       setEnd(hhmm(block.endISO))
-      setLocation(block.location ?? '')
-      setHint(block.hint ?? '')
+      setNote(block.hint ?? block.location ?? '')
     } else {
-      setTitle(''); setType('floating'); setCategory('work')
-      setStart('09:00'); setEnd('10:00'); setLocation(''); setHint('')
+      setTitle(''); setCategory('work')
+      setStart('09:00'); setEnd('10:00'); setNote('')
     }
   }, [open, mode, block])
 
@@ -62,12 +58,11 @@ function BlockEditor({ open, mode, block, blocks, onClose, onSave, onDelete }) {
     if (!canSave) return
     const next = {
       id: mode === 'edit' && block ? block.id : nextBlockId(blocks),
-      type, title: title.trim(), category,
+      title: title.trim(), category,
       startISO, endISO,
       start: fmtDisplay(startISO), end: fmtDisplay(endISO),
       durationMin,
-      location: location.trim() || undefined,
-      hint: hint.trim() || undefined,
+      hint: note.trim() || undefined,
       changed: false,
       done: mode === 'edit' && block ? !!block.done : false,
     }
@@ -119,23 +114,6 @@ function BlockEditor({ open, mode, block, blocks, onClose, onSave, onDelete }) {
           style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(249,115,22,0.25)' }}
         />
 
-        {/* type toggle */}
-        <label className="block text-[12px] font-medium text-slate-400 mb-1.5">Type</label>
-        <div className="flex gap-2 mb-4">
-          {['fixed', 'floating'].map((t) => (
-            <button
-              key={t}
-              onClick={() => setType(t)}
-              className="flex-1 py-2 rounded-xl text-[13px] font-medium capitalize transition-all"
-              style={type === t
-                ? { background: 'linear-gradient(135deg,#f97316,#ec4899)', color: '#fff' }
-                : { background: 'rgba(15,23,42,0.8)', color: '#94a3b8', border: '1px solid rgba(30,41,59,0.8)' }}
-            >
-              {t}
-            </button>
-          ))}
-        </div>
-
         {/* category pills */}
         <label className="block text-[12px] font-medium text-slate-400 mb-1.5">Category</label>
         <div className="flex gap-2 mb-4">
@@ -183,25 +161,15 @@ function BlockEditor({ open, mode, block, blocks, onClose, onSave, onDelete }) {
         </div>
 
         <label className="block text-[12px] font-medium text-slate-400 mb-1.5">
-          {type === 'fixed' ? 'Location' : 'Hint'} <span className="text-slate-600">optional</span>
+          Note <span className="text-slate-600">optional</span>
         </label>
-        {type === 'fixed' ? (
-          <input
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            placeholder="e.g. Block C · Room 204"
-            className="w-full rounded-xl px-3.5 py-2.5 text-[14px] text-slate-100 placeholder-slate-500 outline-none mb-5"
-            style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(6,182,212,0.25)' }}
-          />
-        ) : (
-          <input
-            value={hint}
-            onChange={(e) => setHint(e.target.value)}
-            placeholder="e.g. between 10 AM – 1 PM"
-            className="w-full rounded-xl px-3.5 py-2.5 text-[14px] text-slate-100 placeholder-slate-500 outline-none mb-5"
-            style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(6,182,212,0.25)' }}
-          />
-        )}
+        <input
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          placeholder="e.g. Block C · Room 204 or between 10 AM – 1 PM"
+          className="w-full rounded-xl px-3.5 py-2.5 text-[14px] text-slate-100 placeholder-slate-500 outline-none mb-5"
+          style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(6,182,212,0.25)' }}
+        />
 
         <div className="flex items-center gap-3">
           {mode === 'edit' && (

@@ -26,18 +26,18 @@ export function generateDefaultBlocks() {
   const dateStr = todayStr()
   function iso(h, m) { return `${dateStr}T${pad(h)}:${pad(m)}:00` }
   return [
-    { id: 'b1', type: 'fixed', title: 'Morning lecture · OS',
+    { id: 'b1', title: 'Morning lecture · OS',
       start: fmtDisplay(9, 0), end: fmtDisplay(10, 30),
       startISO: iso(9, 0), endISO: iso(10, 30),
-      durationMin: 90, location: 'Block C · Room 204', category: 'class' },
-    { id: 'b2', type: 'floating', title: 'Powerlifting block',
+      durationMin: 90, hint: 'Block C · Room 204', category: 'class' },
+    { id: 'b2', title: 'Powerlifting block',
       start: fmtDisplay(10, 45), end: fmtDisplay(12, 15),
       startISO: iso(10, 45), endISO: iso(12, 15),
       durationMin: 90, hint: 'between 10 AM – 1 PM', category: 'gym' },
-    { id: 'b3', type: 'fixed', title: 'College Lab · DSA',
+    { id: 'b3', title: 'College Lab · DSA',
       start: fmtDisplay(14, 0), end: fmtDisplay(16, 30),
       startISO: iso(14, 0), endISO: iso(16, 30),
-      durationMin: 150, location: 'Computer Lab 3', category: 'class' },
+      durationMin: 150, hint: 'Computer Lab 3', category: 'class' },
   ]
 }
 

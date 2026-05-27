@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { BookOpen, Dumbbell, Utensils, Code2, Circle, Lock, MoveVertical, Pencil, Sparkles, Check, Plus, X } from 'lucide-react'
+import { BookOpen, Dumbbell, Utensils, Code2, Circle, Pencil, Sparkles, Check, Plus, X } from 'lucide-react'
 
 const CATEGORY_ICONS = { class: BookOpen, gym: Dumbbell, food: Utensils, work: Code2 }
 
@@ -46,7 +46,6 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
   const [taskDraft, setTaskDraft] = useState('')
   const inputRef = useRef(null)
 
-  const isFixed = block.type === 'fixed'
   const isDone = !!block.done
   const tasks = block.tasks ?? []
   const doneTasks = tasks.filter((t) => t.done).length
@@ -77,16 +76,15 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
       onKeyDown={onEdit ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onEdit(block) } } : undefined}
       className={[
         'group relative rounded-2xl px-4 sm:px-5 py-3.5 sm:py-4 transition-all duration-300',
-        'flex flex-col gap-0',
-        isFixed ? 'bg-slate-900/80 border border-slate-700/60' : 'bg-slate-900/40',
+        'flex flex-col gap-0 bg-slate-900/50',
         onEdit ? 'cursor-pointer hover:brightness-110' : '',
         dim ? 'opacity-50' : '',
         isDone ? 'opacity-55' : '',
       ].join(' ')}
       style={{
         boxShadow: `${baseGlow}, inset 0 1px 0 rgba(255,255,255,0.05)`,
-        border: isFixed ? undefined : '1.5px dashed rgba(249,115,22,0.40)',
-        backgroundImage: isFixed ? undefined : 'linear-gradient(180deg, rgba(249,115,22,0.04), transparent 80%)',
+        border: '1px solid rgba(249,115,22,0.28)',
+        backgroundImage: 'linear-gradient(180deg, rgba(249,115,22,0.03), transparent 80%)',
       }}
     >
       {/* main row */}
@@ -111,8 +109,8 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
 
         {/* category glyph — smaller on mobile */}
         <div
-          className={['w-9 h-9 sm:w-10 sm:h-10 rounded-xl grid place-items-center shrink-0 self-start sm:self-center', isFixed ? 'bg-slate-800/70 text-slate-300' : 'text-orange-200'].join(' ')}
-          style={isFixed ? undefined : { background: 'rgba(249,115,22,0.15)' }}
+          className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl grid place-items-center shrink-0 self-start sm:self-center text-orange-200"
+          style={{ background: 'rgba(249,115,22,0.15)' }}
         >
           <CategoryIcon category={block.category} size={16} strokeWidth={1.5} />
         </div>
@@ -137,14 +135,6 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
             <span className="text-slate-700">·</span>
             <span className="font-mono text-slate-500" style={{ fontVariantNumeric: 'tabular-nums' }}>
               {block.durationMin}m
-            </span>
-            <span className="text-slate-700">·</span>
-            <span
-              className={['inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-[0.06em]', isFixed ? 'bg-slate-800/60 text-slate-400 border border-slate-700/60' : ''].join(' ')}
-              style={isFixed ? undefined : { background: 'rgba(249,115,22,0.12)', color: '#fb923c', border: '1px solid rgba(249,115,22,0.35)' }}
-            >
-              {isFixed ? <Lock size={9} strokeWidth={2} /> : <MoveVertical size={9} strokeWidth={2} />}
-              {isFixed ? 'fixed' : 'floating'}
             </span>
             {(block.location || block.hint) && (
               <>
