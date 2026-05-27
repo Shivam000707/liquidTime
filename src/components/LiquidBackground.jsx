@@ -1,12 +1,28 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { MeshDistortMaterial, Environment } from '@react-three/drei'
 
-function AnimatedSphere() {
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768)
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)')
+    const handler = (e) => setIsMobile(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+  return isMobile
+}
+
+function AnimatedSphere({ isMobile }) {
   const meshRef = useRef(null)
   const materialRef = useRef(null)
   const mouse = useRef({ x: 0, y: 0 })
   const rotation = useRef({ x: 0, y: 0 })
+
+  const radius = isMobile ? 1.35 : 2.0
+  const segments = isMobile ? 64 : 128
+  const posX = isMobile ? 1.2 : 0
+  const posY = isMobile ? 1.0 : 0
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -30,8 +46,8 @@ function AnimatedSphere() {
   })
 
   return (
-    <mesh ref={meshRef} position={[0, 0, 0]}>
-      <sphereGeometry args={[2.8, 128, 128]} />
+    <mesh ref={meshRef} position={[posX, posY, 0]}>
+      <sphereGeometry args={[radius, segments, segments]} />
       <MeshDistortMaterial
         ref={materialRef}
         color="#059669"
@@ -46,6 +62,8 @@ function AnimatedSphere() {
 }
 
 export default function LiquidBackground() {
+  const isMobile = useIsMobile()
+
   return (
     <Canvas
       gl={{ alpha: true, antialias: true }}
@@ -64,7 +82,7 @@ export default function LiquidBackground() {
       <pointLight position={[8, 8, 8]} intensity={4} color="#10b981" />
       <pointLight position={[-8, -6, 4]} intensity={2} color="#6ee7b7" />
       <pointLight position={[0, -10, 6]} intensity={1.5} color="#a3e635" />
-      <AnimatedSphere />
+      <AnimatedSphere isMobile={isMobile} />
       <Environment preset="city" />
     </Canvas>
   )
