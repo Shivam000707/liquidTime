@@ -9,20 +9,29 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
+      includeAssets: ['favicon.ico', 'favicon.svg', 'apple-touch-icon-180x180.png'],
       manifest: {
+        id: '/',
         name: 'LiquidTime',
         short_name: 'LiquidTime',
         description: 'AI-driven fluid daily scheduler',
         theme_color: '#020617',
         background_color: '#020617',
         display: 'standalone',
+        display_override: ['window-controls-overlay', 'standalone', 'browser'],
         orientation: 'portrait',
+        start_url: '/',
+        scope: '/',
+        categories: ['productivity', 'utilities'],
         icons: [
-          { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
+          { src: '/pwa-64x64.png', sizes: '64x64', type: 'image/png' },
+          { src: '/pwa-192x192.png', sizes: '192x192', type: 'image/png' },
+          { src: '/pwa-512x512.png', sizes: '512x512', type: 'image/png' },
+          { src: '/maskable-icon-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
       workbox: {
+        clientsClaim: true,
         runtimeCaching: [
           {
             urlPattern: /\/api\//,
