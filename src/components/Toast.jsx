@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Sparkles, Undo2, X } from 'lucide-react'
-import { GRAD, SHADOW, BORDER, BLUR, CLR } from '../styles/tokens'
+import { GRAD, SHADOW, BORDER, CLR } from '../styles/tokens'
 
 // Auto-dismisses after a delay — longer when an action (e.g. Undo) is offered.
 function Toast({ toast, onDismiss }) {
@@ -20,10 +20,9 @@ function Toast({ toast, onDismiss }) {
       <div
         className="flex items-start gap-3 rounded-2xl px-4 py-3"
         style={{
-          background: GRAD.toast,
+          background: 'linear-gradient(180deg, #0f172a 0%, #020617 100%)',
           border: BORDER.emerald32,
           boxShadow: SHADOW.toast,
-          ...BLUR.md,
         }}
       >
         <span

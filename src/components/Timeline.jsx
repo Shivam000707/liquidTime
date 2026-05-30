@@ -39,7 +39,7 @@ function Timeline({ blocks, reflowing, onEditBlock, onToggleDone, onAddTask, onT
       const changed = blocks.find((b) => b.changed)
       if (changed) {
         const el = document.querySelector(`[data-block-id="${changed.id}"]`)
-        el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+        el?.scrollIntoView({ behavior: 'smooth', block: 'center' })
       }
     }
     prevReflowing.current = reflowing
