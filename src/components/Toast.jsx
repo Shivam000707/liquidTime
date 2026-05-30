@@ -14,8 +14,8 @@ function Toast({ toast, onDismiss }) {
 
   return (
     <div
-      className="fixed bottom-28 left-1/2 -translate-x-1/2 z-50 w-[calc(100vw-2rem)] max-w-[420px]"
-      style={{ animation: 'lt-fade-in 240ms ease-out both' }}
+      className="fixed left-1/2 -translate-x-1/2 z-50 w-[calc(100vw-2rem)] max-w-[420px]"
+      style={{ bottom: 'calc(8.5rem + env(safe-area-inset-bottom))', animation: 'lt-fade-in 240ms ease-out both' }}
     >
       <div
         className="flex items-start gap-3 rounded-2xl px-4 py-3"

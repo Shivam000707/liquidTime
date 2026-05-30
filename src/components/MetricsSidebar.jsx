@@ -57,7 +57,7 @@ function AIInsight({ message }) {
 
 const MOBILE_CHIPS = [
   { icon: 'activity',  label: 'Productive', key: 'productive', accent: 'cyan'   },
-  { icon: 'dumbbell',  label: 'Bulk',       key: 'bulkWindow', accent: 'violet' },
+  { icon: 'dumbbell',  label: 'Gym',        key: 'bulkWindow', accent: 'violet' },
   { icon: 'hourglass', label: 'Buffer',     key: 'buffer',     accent: 'cyan'   },
 ]
 
@@ -98,7 +98,7 @@ function MetricsSidebar({ metrics, insight }) {
       <div className="hidden lg:flex flex-col gap-3">
         <div className="text-[11px] uppercase tracking-[0.08em] font-semibold text-slate-500 px-1 mb-1">Today at a glance</div>
         <MetricTile icon="activity"  label="Productive"  value={metrics.productive.value}  sub={metrics.productive.sub}  delta={metrics.productive.delta} accent="cyan"   />
-        <MetricTile icon="dumbbell"  label="Bulk window" value={metrics.bulkWindow.value}  sub={metrics.bulkWindow.sub}                                    accent="violet" />
+        <MetricTile icon="dumbbell"  label="Gym window"  value={metrics.bulkWindow.value}  sub={metrics.bulkWindow.sub}                                    accent="violet" />
         <MetricTile icon="hourglass" label="Buffer"      value={metrics.buffer.value}      sub={metrics.buffer.sub}                                        accent="cyan"   />
         <AIInsight message={insight} />
       </div>

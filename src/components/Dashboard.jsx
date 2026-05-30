@@ -166,7 +166,7 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
             </div>
           </div>
 
-          <div style={{ height: 'calc(11rem + env(safe-area-inset-bottom))' }} />
+          <div style={{ height: 'calc(15rem + env(safe-area-inset-bottom))' }} />
         </main>
 
         {/* docked mic */}

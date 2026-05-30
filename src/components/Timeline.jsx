@@ -17,6 +17,7 @@ function Timeline({ blocks, reflowing, onEditBlock, onToggleDone, onAddTask, onT
   const [nowMs, setNowMs] = useState(Date.now())
   const nowRef = useRef(null)
   const scrolledRef = useRef(false)
+  const prevReflowing = useRef(false)
 
   useEffect(() => {
     const id = setInterval(() => setNowMs(Date.now()), 60_000)
@@ -31,6 +32,18 @@ function Timeline({ blocks, reflowing, onEditBlock, onToggleDone, onAddTask, onT
       scrolledRef.current = true
     }
   }, [blocks])
+
+  // After voice reflow finishes, scroll the first changed block into view.
+  useEffect(() => {
+    if (prevReflowing.current && !reflowing) {
+      const changed = blocks.find((b) => b.changed)
+      if (changed) {
+        const el = document.querySelector(`[data-block-id="${changed.id}"]`)
+        el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      }
+    }
+    prevReflowing.current = reflowing
+  }, [reflowing, blocks])
 
   const nowIdx = useMemo(() => placeNow(blocks, nowMs), [blocks, nowMs])
 
@@ -68,6 +81,7 @@ function Timeline({ blocks, reflowing, onEditBlock, onToggleDone, onAddTask, onT
         return (
           <div
             key={it.key}
+            data-block-id={it.block.id}
             style={{ animation: 'lt-fade-in 400ms cubic-bezier(0.22,1,0.36,1) both', animationDelay: `${i * 30}ms` }}
           >
             <TimelineBlock

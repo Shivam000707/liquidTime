@@ -4,6 +4,13 @@ import { GRAD, SHADOW, BORDER, CLR } from '../styles/tokens'
 
 const CATEGORY_ICONS = { class: BookOpen, gym: Dumbbell, food: Utensils, work: Code2 }
 
+const CATEGORY_COLORS = {
+  class: { bg: 'rgba(56,189,248,0.15)', color: '#7dd3fc' },   // sky
+  gym:   { bg: 'rgba(163,230,53,0.15)', color: '#bef264' },   // lime
+  food:  { bg: 'rgba(251,191,36,0.15)', color: '#fcd34d' },   // amber
+  work:  { bg: 'rgba(167,139,250,0.15)', color: '#c4b5fd' },  // violet
+}
+
 function CategoryIcon({ category, ...props }) {
   const Comp = CATEGORY_ICONS[category] ?? Circle
   return <Comp {...props} />
@@ -84,7 +91,7 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
       ].join(' ')}
       style={{
         boxShadow: blockShadow,
-        border: BORDER.emerald28,
+        border: BORDER.emerald35,
         backgroundImage: GRAD.blockBg,
       }}
     >
@@ -112,8 +119,11 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
 
         {/* category glyph */}
         <div
-          className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl grid place-items-center shrink-0 self-start sm:self-center text-emerald-200"
-          style={{ background: CLR.emeraldFill15 }}
+          className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl grid place-items-center shrink-0 self-start sm:self-center"
+          style={{
+            background: CATEGORY_COLORS[block.category]?.bg ?? CLR.emeraldFill15,
+            color: CATEGORY_COLORS[block.category]?.color ?? CLR.emeraldLight,
+          }}
         >
           <CategoryIcon category={block.category} size={16} strokeWidth={1.5} />
         </div>
@@ -130,7 +140,7 @@ function TimelineBlock({ block, dim, onEdit, onToggleDone, onAddTask, onToggleTa
                 style={{ background: 'linear-gradient(135deg,rgba(16,185,129,0.18),rgba(52,211,153,0.18))', color: CLR.emeraldLight, border: BORDER.emerald35 }}
               >
                 <Sparkles size={10} strokeWidth={2} />
-                moved
+                updated
               </span>
             )}
           </div>

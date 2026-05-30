@@ -83,6 +83,29 @@ function Onboarding({ onComplete }) {
         className="relative w-full max-w-[560px] rounded-[28px] p-8 sm:p-10"
         style={PANEL}
       >
+        {/* Step indicator — only on name/describe steps */}
+        {(step === 'name' || step === 'describe') && (
+          <div className="flex items-center gap-2 mb-7">
+            {[0, 1].map((i) => {
+              const active = i === (step === 'name' ? 0 : 1)
+              return (
+                <div
+                  key={i}
+                  className="rounded-full transition-all duration-300"
+                  style={{
+                    width: active ? 24 : 8,
+                    height: 8,
+                    background: active ? 'linear-gradient(135deg,#10b981,#34d399)' : 'rgba(51,65,85,0.6)',
+                  }}
+                />
+              )
+            })}
+            <span className="ml-1 text-[11px] text-slate-500 font-medium uppercase tracking-[0.08em]">
+              Step {step === 'name' ? 1 : 2} of 2
+            </span>
+          </div>
+        )}
+
         {/* STEP 1 — NAME */}
         {step === 'name' && (
           <div style={{ animation: 'lt-fade-in 300ms ease-out both' }}>
@@ -148,12 +171,12 @@ function Onboarding({ onComplete }) {
             {isSupported && (
               <button
                 onClick={toggleMic}
-                className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-medium transition-colors"
+                className="mt-4 inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-[13px] font-medium transition-all hover:brightness-110"
                 style={isListening
-                  ? { background: 'rgba(110,231,183,0.18)', color: '#6ee7b7', border: '1px solid rgba(110,231,183,0.40)' }
-                  : { background: 'rgba(15,23,42,0.8)', color: '#94a3b8', border: '1px solid rgba(30,41,59,0.8)' }}
+                  ? { background: 'rgba(110,231,183,0.18)', color: '#6ee7b7', border: '1px solid rgba(110,231,183,0.45)', boxShadow: '0 0 24px rgba(16,185,129,0.25)' }
+                  : { background: 'rgba(16,185,129,0.10)', color: '#34d399', border: '1px solid rgba(16,185,129,0.35)', boxShadow: '0 4px 16px rgba(16,185,129,0.12)' }}
               >
-                {isListening ? <MicOff size={14} /> : <Mic size={14} />}
+                {isListening ? <MicOff size={15} strokeWidth={1.8} /> : <Mic size={15} strokeWidth={1.8} />}
                 {isListening ? 'Stop dictating' : 'Dictate by voice'}
               </button>
             )}
