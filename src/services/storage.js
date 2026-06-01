@@ -4,11 +4,6 @@ const CURRENT_VERSION = 1
 
 function pad(n) { return String(n).padStart(2, '0') }
 
-function todayStr() {
-  const t = new Date()
-  return `${t.getFullYear()}-${pad(t.getMonth() + 1)}-${pad(t.getDate())}`
-}
-
 function fmtDisplay(h, m) {
   const period = h < 12 ? 'AM' : 'PM'
   const h12 = h % 12 || 12
@@ -43,6 +38,11 @@ export function generateDefaultBlocks() {
 
 /** Carry a schedule forward to today: rewrite ISO dates, refresh display strings,
  *  clear changed flags and reschedule-pass hint noise. */
+export function todayStr() {
+  const t = new Date()
+  return `${t.getFullYear()}-${pad(t.getMonth() + 1)}-${pad(t.getDate())}`
+}
+
 function rollScheduleForward(blocks, today) {
   return blocks.map((b) => {
     const startISO = b.startISO?.replace(/^\d{4}-\d{2}-\d{2}/, today) ?? b.startISO
@@ -55,9 +55,13 @@ function rollScheduleForward(blocks, today) {
         .trim()
       if (!hint) hint = undefined
     }
-    return { ...b, startISO, endISO,
+    return {
+      ...b, startISO, endISO,
       start: displayFromISO(startISO), end: displayFromISO(endISO),
-      changed: false, hint }
+      changed: false, done: false,
+      tasks: b.tasks?.map((t) => ({ ...t, done: false })),
+      hint,
+    }
   })
 }
 

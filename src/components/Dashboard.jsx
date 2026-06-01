@@ -2,7 +2,6 @@ import { useState, useCallback } from 'react'
 import { AudioWaveform, Plus } from 'lucide-react'
 import TopBar from './TopBar'
 import Timeline from './Timeline'
-import MetricsSidebar from './MetricsSidebar'
 import MicButton from './MicButton'
 import VoiceModal from './VoiceModal'
 import BlockEditor from './BlockEditor'
@@ -10,7 +9,6 @@ import Toast from './Toast'
 import { useSchedule } from '../hooks/useSchedule'
 import { useSpeechRecognition } from '../hooks/useSpeechRecognition'
 import { sendVoiceCommand, friendlyError } from '../services/api'
-import { computeMetrics } from '../utils/metrics'
 import { GRAD, SHADOW, BORDER, BLUR, CLR } from '../styles/tokens'
 
 function mergeDoneState(next, prev) {
@@ -37,9 +35,7 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
   const [editorMode, setEditorMode]     = useState('add')
   const [editingBlock, setEditingBlock] = useState(null)
 
-  const metrics = computeMetrics(blocks)
   const doneCount = blocks.filter((b) => b.done).length
-  const insight = lastAIMessage || `${metrics.buffer.value} buffer · ${blocks.length} blocks ready to reflow.`
 
   const openVoice = useCallback(() => {
     setVoiceError(null)
@@ -114,13 +110,7 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
             </h1>
           </div>
 
-          {/* mobile metrics strip */}
-          <div className="lg:hidden mb-5">
-            <MetricsSidebar metrics={metrics} insight={insight} />
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 lg:gap-8">
-            <section>
+          <section>
               <div className="flex items-center justify-between mb-5">
                 <div className="min-w-0">
                   <h2 className="text-[20px] sm:text-[22px] font-medium tracking-tight text-slate-50">Today</h2>
@@ -160,11 +150,6 @@ function Dashboard({ userName = 'there', onNameChange, onReset }) {
                 onDeleteTask={deleteTask}
               />
             </section>
-
-            <div className="hidden lg:block">
-              <MetricsSidebar metrics={metrics} insight={insight} />
-            </div>
-          </div>
 
           <div style={{ height: 'calc(15rem + env(safe-area-inset-bottom))' }} />
         </main>

@@ -1,9 +1,26 @@
-import { useState, useCallback } from 'react'
-import { getSchedule, saveSchedule, resetSchedule } from '../services/storage'
+import { useState, useCallback, useEffect, useRef } from 'react'
+import { getSchedule, saveSchedule, resetSchedule, todayStr } from '../services/storage'
 import { resolveConflicts } from '../utils/resolveConflicts'
 
 export function useSchedule() {
   const [blocks, setBlocks] = useState(() => getSchedule())
+
+  const mountedDate = useRef(todayStr())
+  useEffect(() => {
+    function checkDayRollover() {
+      const today = todayStr()
+      if (today !== mountedDate.current) {
+        mountedDate.current = today
+        setBlocks(getSchedule())
+      }
+    }
+    document.addEventListener('visibilitychange', checkDayRollover)
+    const interval = setInterval(checkDayRollover, 60_000)
+    return () => {
+      document.removeEventListener('visibilitychange', checkDayRollover)
+      clearInterval(interval)
+    }
+  }, [])
 
   /** Sort, run the conflict pass, persist, and update state. */
   const commit = useCallback((next) => {
